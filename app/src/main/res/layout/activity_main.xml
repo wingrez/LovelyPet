@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/btn_floatWindow"
+        android:id="@+id/btn_openFW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="开启悬浮窗"

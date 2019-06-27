@@ -14,13 +14,13 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btn_floatWindow;
+    private Button btn_openFW;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btn_floatWindow= this.<Button>findViewById(R.id.btn_floatWindow);
+        btn_openFW= this.<Button>findViewById(R.id.btn_openFW);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -36,24 +36,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void onClick (View view){
+        switch (view.getId()){
+            case R.id.btn_openFW :
+                startFloatingButtonService(view);
+                break;
+        }
+    }
+
     private void startFloatingButtonService(View view){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { //判断系统版本是否大于Android 6.0
             if (!Settings.canDrawOverlays(this)) {
-                Toast.makeText(this, "请授权开启悬浮窗", Toast.LENGTH_SHORT);
+                Toast.makeText(this, "未授权开启悬浮窗", Toast.LENGTH_SHORT);
                 startActivityForResult(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName())), 0);
             } else {
                 startService(new Intent(MainActivity.this, FloatWindowService.class));
             }
         } else {
             startService(new Intent(MainActivity.this, FloatWindowService.class));
-        }
-    }
-
-    public void onClick (View view){
-        switch (view.getId()){
-            case R.id.btn_floatWindow :
-                startFloatingButtonService(view);
-                break;
         }
     }
 
