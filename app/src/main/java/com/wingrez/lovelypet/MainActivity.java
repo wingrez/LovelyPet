@@ -23,6 +23,12 @@ public class MainActivity extends AppCompatActivity {
         btn_openFW= this.<Button>findViewById(R.id.btn_openFW);
     }
 
+    /**
+     * Activity返回结果
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -31,30 +37,44 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "授权失败", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "授权成功", Toast.LENGTH_SHORT).show();
-                startService(new Intent(MainActivity.this, FloatWindowService.class));
+                startService(new Intent(MainActivity.this, FWService.class));
             }
         }
     }
 
+    /**
+     * 按钮点击事件
+     * @param view
+     */
     public void onClick (View view){
         switch (view.getId()){
             case R.id.btn_openFW :
-                startFloatingButtonService(view);
+                startFWService(view);
                 break;
+            case R.id.btn_closeFW:
+                stopFWService(view);
         }
     }
 
-    private void startFloatingButtonService(View view){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { //判断系统版本是否大于Android 6.0
-            if (!Settings.canDrawOverlays(this)) {
+    private void startFWService(View view){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { //需要判断系统版本是否大于Android 6.0
+            if (!Settings.canDrawOverlays(this)) { //因为版本号大于6.0的系统才可以调用此方法
                 Toast.makeText(this, "未授权开启悬浮窗", Toast.LENGTH_SHORT);
                 startActivityForResult(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName())), 0);
             } else {
-                startService(new Intent(MainActivity.this, FloatWindowService.class));
+                startService(new Intent(MainActivity.this, FWService.class));
             }
         } else {
-            startService(new Intent(MainActivity.this, FloatWindowService.class));
+            startService(new Intent(MainActivity.this, FWService.class));
         }
+    }
+
+    /**
+     * 关闭悬浮窗口
+     * @param view
+     */
+    private void stopFWService(View view){
+        stopService(new Intent(MainActivity.this, FWService.class));
     }
 
 }
