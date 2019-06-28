@@ -7,6 +7,8 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -16,17 +18,21 @@ import android.widget.ImageView;
 
 public class FWService extends Service {
 
-    public static boolean isFWRunning = false;
+    public static boolean isFWRunning = false; //悬浮窗是否开启
+    public static boolean isFWMoving = false; //悬浮窗是否正在移动，移动状态无动画
 
     private WindowManager windowManager;
     private WindowManager.LayoutParams layoutParams;
 
-    private View displayView;
+    private View fwView;
 
     private int[] images;
     private int imageIndex = 0;
 
     private Handler changeImageHandler;
+
+    private int screenWidth;
+    private int screenHeight;
 
     @Override
     public void onCreate() {
@@ -37,28 +43,39 @@ public class FWService extends Service {
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         layoutParams = new WindowManager.LayoutParams();
 
+        //获取屏幕宽度和高度
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        screenWidth = displayMetrics.widthPixels;         // 屏幕宽度（像素） 540
+        screenHeight = displayMetrics.heightPixels;       // 屏幕高度（像素） 960
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //系统版本号大于等于8.0
             layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
         } else { //系统版本号小于8.0
             layoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;
         }
 
+        //设置布局参数
         layoutParams.format = PixelFormat.RGBA_8888;
-        layoutParams.gravity = Gravity.CENTER;
         layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-        layoutParams.height = 100;
-        layoutParams.width = 100;
-        layoutParams.x = 0; //使悬浮窗处于水平和垂直居中位置
-        layoutParams.y = 0;
+        layoutParams.gravity = Gravity.LEFT | Gravity.TOP;
+        layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT; //悬浮窗宽高自适应，尽量选择尺寸相同（150）的素材，
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        layoutParams.x = screenWidth;
+        layoutParams.y = screenHeight;
 
+        //图片资源
         images = new int[]{
-                R.drawable.image_1,
-                R.drawable.image_2,
-                R.drawable.image_3
+                R.drawable.img_1,
+                R.drawable.img_2,
+                R.drawable.img_3,
+                R.drawable.img_4,
+                R.drawable.img_5,
+                R.drawable.img_6,
+                R.drawable.img_7,
         };
 
         changeImageHandler = new Handler(this.getMainLooper(), changeImageCallback);
-
     }
 
     @Override
@@ -75,8 +92,33 @@ public class FWService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        windowManager.removeView(displayView);
+        windowManager.removeView(fwView);
         isFWRunning = false;
+    }
+
+    private int getViewWidth() {
+        if (fwView != null) {
+            return fwView.getWidth();
+        }
+        return 0;
+    }
+
+    private int getViewHeight() {
+        if (fwView != null) {
+            return fwView.getHeight();
+        }
+        return 0;
+    }
+
+    private void setViewPosition(int x, int y) { //设置悬浮窗的位置
+        if (x < 0) layoutParams.x = 0;
+        else if (x > screenWidth - getViewWidth()) layoutParams.x = screenWidth - getViewWidth();
+        else layoutParams.x = x;
+
+        if (y < 0) layoutParams.y = 0;
+        else if (y > screenHeight - getViewHeight())
+            layoutParams.y = screenHeight - getViewHeight();
+        else layoutParams.y = y;
     }
 
     /**
@@ -84,13 +126,15 @@ public class FWService extends Service {
      */
     private void showFW() {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
-        displayView = layoutInflater.inflate(R.layout.image_display, null);
-        displayView.setOnTouchListener(new FloatingOnTouchListener());
-        ImageView imageView = displayView.findViewById(R.id.image_display_imageview);
-        imageView.setImageResource(images[imageIndex]);
-        windowManager.addView(displayView, layoutParams);
+        fwView = layoutInflater.inflate(R.layout.fw_main, null);
+        fwView.setOnTouchListener(new FloatingOnTouchListener());
 
-        changeImageHandler.sendEmptyMessageDelayed(0, 100);
+        ImageView imageView = fwView.findViewById(R.id.imgv_fw);
+        imageView.setImageResource(images[imageIndex]);
+
+        windowManager.addView(fwView, layoutParams);
+
+        changeImageHandler.sendEmptyMessageDelayed(0, 1000);
     }
 
     /**
@@ -100,16 +144,20 @@ public class FWService extends Service {
         @Override
         public boolean handleMessage(Message msg) {
             if (msg.what == 0) {
+                if (isFWMoving == true) {
+                    changeImageHandler.sendEmptyMessageDelayed(0, 1000);
+                    return false;
+                }
                 imageIndex++;
                 if (imageIndex >= images.length) {
                     imageIndex = 0;
                 }
-                if (displayView != null) {
-                    ((ImageView) displayView.findViewById(R.id.image_display_imageview)).setImageResource(images[imageIndex]);
+                if (fwView != null) {
+                    ((ImageView) fwView.findViewById(R.id.imgv_fw)).setImageResource(images[imageIndex]);
                 }
-
-                changeImageHandler.sendEmptyMessageDelayed(0, 100);
+                changeImageHandler.sendEmptyMessageDelayed(0, 1000);
             }
+
             return false;
         }
     };
@@ -118,27 +166,43 @@ public class FWService extends Service {
      * 悬浮窗移动事件
      */
     private class FloatingOnTouchListener implements View.OnTouchListener {
-        private float x;
-        private float y;
+        private float x; //点击屏幕的x坐标，相对屏幕坐标系
+        private float y; //点击屏幕的x坐标，相对屏幕坐标系
 
         @Override
         public boolean onTouch(View view, MotionEvent event) {
             switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
+                case MotionEvent.ACTION_DOWN: //按下动作
                     x = event.getRawX();
                     y = event.getRawY();
                     break;
-                case MotionEvent.ACTION_MOVE:
+                case MotionEvent.ACTION_MOVE: //移动动作
+                    isFWMoving = true;
                     float nowX = event.getRawX();
                     float nowY = event.getRawY();
-                    float movedX = nowX - x;
-                    float movedY = nowY - y;
+                    float moveX = nowX - x;
+                    float moveY = nowY - y;
+                    setViewPosition(layoutParams.x + Math.round(moveX), layoutParams.y + Math.round(moveY));
+                    windowManager.updateViewLayout(view, layoutParams);
                     x = nowX;
                     y = nowY;
-                    layoutParams.x = layoutParams.x + Math.round(movedX);
-                    layoutParams.y = layoutParams.y + Math.round(movedY);
-                    windowManager.updateViewLayout(view, layoutParams);
                     break;
+                case MotionEvent.ACTION_UP: //抬起动作，自动吸附屏幕边缘
+                    isFWMoving = false;
+                    nowX = event.getRawX();
+                    nowY=event.getRawY();
+                    if(nowX<150 || nowX>screenWidth-150){
+                        moveX = nowX <= screenWidth / 2 ? 0 : screenWidth;
+                        setViewPosition((int) moveX, layoutParams.y);
+                        windowManager.updateViewLayout(fwView, layoutParams);
+                        break;
+                    }
+                    if(nowY<150 || nowY>screenHeight-150){
+                        moveY=nowY<=screenHeight/2?0:screenHeight;
+                        setViewPosition(layoutParams.x,(int)moveY);
+                        windowManager.updateViewLayout(fwView, layoutParams);
+                        break;
+                    }
                 default:
                     break;
             }
