@@ -96,6 +96,11 @@ public class FWService extends Service {
         isFWRunning = false;
     }
 
+    /**
+     * 获取悬浮窗的宽度
+     *
+     * @return
+     */
     private int getViewWidth() {
         if (fwView != null) {
             return fwView.getWidth();
@@ -103,6 +108,11 @@ public class FWService extends Service {
         return 0;
     }
 
+    /**
+     * 获取悬浮窗的高度
+     *
+     * @return
+     */
     private int getViewHeight() {
         if (fwView != null) {
             return fwView.getHeight();
@@ -110,7 +120,13 @@ public class FWService extends Service {
         return 0;
     }
 
-    private void setViewPosition(int x, int y) { //设置悬浮窗的位置
+    /**
+     * 设置悬浮窗的位置
+     *
+     * @param x
+     * @param y
+     */
+    private void setViewPosition(int x, int y) {
         if (x < 0) layoutParams.x = 0;
         else if (x > screenWidth - getViewWidth()) layoutParams.x = screenWidth - getViewWidth();
         else layoutParams.x = x;
@@ -190,21 +206,19 @@ public class FWService extends Service {
                 case MotionEvent.ACTION_UP: //抬起动作，自动吸附屏幕边缘
                     isFWMoving = false;
                     nowX = event.getRawX();
-                    nowY=event.getRawY();
-                    if(nowX<150 || nowX>screenWidth-150){
+                    nowY = event.getRawY();
+                    if (nowX < 150 || nowX > screenWidth - 150) {
                         moveX = nowX <= screenWidth / 2 ? 0 : screenWidth;
                         setViewPosition((int) moveX, layoutParams.y);
                         windowManager.updateViewLayout(fwView, layoutParams);
                         break;
                     }
-                    if(nowY<150 || nowY>screenHeight-150){
-                        moveY=nowY<=screenHeight/2?0:screenHeight;
-                        setViewPosition(layoutParams.x,(int)moveY);
+                    if (nowY < 150 || nowY > screenHeight - 150) {
+                        moveY = nowY <= screenHeight / 2 ? 0 : screenHeight;
+                        setViewPosition(layoutParams.x, (int) moveY);
                         windowManager.updateViewLayout(fwView, layoutParams);
                         break;
                     }
-                default:
-                    break;
             }
             return false;
         }
