@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import static com.wingrez.lovelypet.utils.Utils.*;
+
 public class FWService extends Service {
 
     public static boolean isFWRunning = false; //悬浮窗是否开启
@@ -97,30 +99,6 @@ public class FWService extends Service {
     }
 
     /**
-     * 获取悬浮窗的宽度
-     *
-     * @return
-     */
-    private int getViewWidth() {
-        if (fwView != null) {
-            return fwView.getWidth();
-        }
-        return 0;
-    }
-
-    /**
-     * 获取悬浮窗的高度
-     *
-     * @return
-     */
-    private int getViewHeight() {
-        if (fwView != null) {
-            return fwView.getHeight();
-        }
-        return 0;
-    }
-
-    /**
      * 设置悬浮窗的位置
      *
      * @param x
@@ -128,12 +106,12 @@ public class FWService extends Service {
      */
     private void setViewPosition(int x, int y) {
         if (x < 0) layoutParams.x = 0;
-        else if (x > screenWidth - getViewWidth()) layoutParams.x = screenWidth - getViewWidth();
+        else if (x > screenWidth - getViewWidth(fwView)) layoutParams.x = screenWidth - getViewWidth(fwView);
         else layoutParams.x = x;
 
         if (y < 0) layoutParams.y = 0;
-        else if (y > screenHeight - getViewHeight())
-            layoutParams.y = screenHeight - getViewHeight();
+        else if (y > screenHeight - getViewHeight(fwView))
+            layoutParams.y = screenHeight - getViewHeight(fwView);
         else layoutParams.y = y;
     }
 
@@ -160,7 +138,7 @@ public class FWService extends Service {
         @Override
         public boolean handleMessage(Message msg) {
             if (msg.what == 0) {
-                if (isFWMoving == true) {
+                if (isFWMoving == true) { //当悬浮窗正在移动时，不更新View
                     changeImageHandler.sendEmptyMessageDelayed(0, 1000);
                     return false;
                 }
@@ -182,7 +160,7 @@ public class FWService extends Service {
      * 悬浮窗移动事件
      */
     private class FloatingOnTouchListener implements View.OnTouchListener {
-        private float x; //点击屏幕的x坐标，相对屏幕坐标系
+        private float x; //点击屏幕的x坐标，相对屏幕坐标系 注意是手指点击位置的坐标
         private float y; //点击屏幕的x坐标，相对屏幕坐标系
 
         @Override
@@ -205,16 +183,14 @@ public class FWService extends Service {
                     break;
                 case MotionEvent.ACTION_UP: //抬起动作，自动吸附屏幕边缘
                     isFWMoving = false;
-                    nowX = event.getRawX();
-                    nowY = event.getRawY();
-                    if (nowX < 150 || nowX > screenWidth - 150) {
-                        moveX = nowX <= screenWidth / 2 ? 0 : screenWidth;
+                    if (layoutParams.x < 30 || layoutParams.x+getViewWidth(fwView) > screenWidth - 30) {
+                        moveX = layoutParams.x <= screenWidth / 2 ? 0 : screenWidth;
                         setViewPosition((int) moveX, layoutParams.y);
                         windowManager.updateViewLayout(fwView, layoutParams);
                         break;
                     }
-                    if (nowY < 150 || nowY > screenHeight - 150) {
-                        moveY = nowY <= screenHeight / 2 ? 0 : screenHeight;
+                    if (layoutParams.y < 30 || layoutParams.y+getViewHeight(fwView) > screenHeight - 30) {
+                        moveY = layoutParams.y <= screenHeight / 2 ? 0 : screenHeight;
                         setViewPosition(layoutParams.x, (int) moveY);
                         windowManager.updateViewLayout(fwView, layoutParams);
                         break;
