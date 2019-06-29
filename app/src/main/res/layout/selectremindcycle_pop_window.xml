@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#BB000000"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:background="#FFFFFF"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:id="@+id/tv_cycle_once"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:drawableRight="@null"
+            android:text="只响一次"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView style="@style/horizontal_line_style" />
+
+        <TextView
+            android:id="@+id/tv_cycle_everyday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:drawableRight="@null"
+            android:text="每天"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView style="@style/horizontal_line_style" />
+
+        <TextView
+            android:id="@+id/tv_cycle_mon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:drawableRight="@null"
+            android:text="周一"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView style="@style/horizontal_line_style" />
+
+        <TextView
+            android:id="@+id/tv_cycle_tue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:drawableRight="@null"
+            android:text="周二"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView style="@style/horizontal_line_style" />
+
+        <TextView
+            android:id="@+id/tv_cycle_wed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:drawableRight="@null"
+            android:text="周三"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView style="@style/horizontal_line_style" />
+
+        <TextView
+            android:id="@+id/tv_cycle_thu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:drawableRight="@null"
+            android:text="周四"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView style="@style/horizontal_line_style" />
+
+        <TextView
+            android:id="@+id/tv_cycle_fri"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:drawableRight="@null"
+            android:text="周五"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView style="@style/horizontal_line_style" />
+
+        <TextView
+            android:id="@+id/tv_cycle_sat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:drawableRight="@null"
+            android:text="周六"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView style="@style/horizontal_line_style" />
+
+        <TextView
+            android:id="@+id/tv_cycle_sun"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:drawableRight="@null"
+            android:text="周日"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView style="@style/horizontal_line_style" />
+
+        <TextView
+            android:id="@+id/tv_cycle_sure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:drawableRight="@null"
+            android:gravity="center"
+            android:text="确定"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            style="@style/horizontal_line_style"
+            android:layout_marginBottom="20dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.AlarmClock;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.wingrez.lovelypet.alarm.AlarmMainActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,6 +57,12 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.btn_closeFW: //关闭悬浮窗
                 stopFWService(view);
+                break;
+            case R.id.btn_setAlarm:
+                Intent intent=new Intent(MainActivity.this, AlarmMainActivity.class);
+                startActivity(intent);
+                break;
+            default:
                 break;
         }
     }

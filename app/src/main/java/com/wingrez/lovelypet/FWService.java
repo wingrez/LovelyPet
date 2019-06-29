@@ -219,6 +219,8 @@ public class FWService extends Service {
                         windowManager.updateViewLayout(fwView, layoutParams);
                         break;
                     }
+                default:
+                    break;
             }
             return false;
         }

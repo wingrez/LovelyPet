@@ -19,6 +19,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".alarm.AlarmMainActivity"></activity>
+
         <service android:name=".FWService"/>
     </application>
 
