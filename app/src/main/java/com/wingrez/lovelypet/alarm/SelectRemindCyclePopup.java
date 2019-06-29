@@ -3,6 +3,7 @@ package com.wingrez.lovelypet.alarm;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -49,19 +50,11 @@ public class SelectRemindCyclePopup implements OnClickListener {
         mPopupWindow.setHeight(WindowManager.LayoutParams.FILL_PARENT);
         mPopupWindow.setTouchable(true);
         mPopupWindow.setFocusable(true);
-        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.setOutsideTouchable(false);
         mPopupWindow.setAnimationStyle(R.style.AnimBottom);
         mPopupWindow.setContentView(initViews());
 
-        mPopupWindow.getContentView().setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                mPopupWindow.setFocusable(false);
-                 mPopupWindow.dismiss();
-                return true;
-            }
-        });
-
+        // TODO: 2019/6/29 mPopupWindow区域外点击不消失
     }
 
     public View initViews() {

@@ -37,14 +37,7 @@ public class SelectRemindWayPopup implements OnClickListener {
         mPopupWindow.setAnimationStyle(R.style.AnimBottom);
         mPopupWindow.setContentView(initViews());
 
-        mPopupWindow.getContentView().setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                mPopupWindow.setFocusable(false);
-                mPopupWindow.dismiss();
-                return true;
-            }
-        });
+        // TODO: 2019/6/29 mPopupWindow区域外点击不消失
 
     }
 
