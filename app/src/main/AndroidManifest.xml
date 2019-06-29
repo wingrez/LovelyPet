@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <!--震动权限-->
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <!--开机自启权限-->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -18,6 +20,17 @@
         <receiver android:name="com.wingrez.lovelypet.alarm.AlarmReceiver">
             <intent-filter>
                 <action android:name="com.wingrez.lovelypet.alarm.AlarmReceiver"/>
+            </intent-filter>
+        </receiver>
+
+
+        <receiver
+            android:name=".BroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </receiver>
 

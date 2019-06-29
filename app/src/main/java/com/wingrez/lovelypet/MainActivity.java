@@ -56,10 +56,10 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_openFW: //开启悬浮窗
-                startFWService(view);
+                startFWService();
                 break;
             case R.id.btn_closeFW: //关闭悬浮窗
-                stopFWService(view);
+                stopFWService();
                 break;
             case R.id.btn_setAlarm:
                 Intent intent = new Intent(MainActivity.this, AlarmMainActivity.class);
@@ -75,10 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * 开启悬浮窗服务
-     *
-     * @param view
      */
-    private void startFWService(View view) {
+    public void startFWService() {
         if (FWService.isFWRunning == true) { //检查悬浮窗开启状态，只允许开启一个悬浮窗
             Toast.makeText(this, "悬浮窗已开启", Toast.LENGTH_SHORT);
             return;
@@ -100,17 +98,15 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * 关闭悬浮窗服务
-     *
-     * @param view
      */
-    private void stopFWService(View view) {
+    public void stopFWService() {
         stopService(new Intent(MainActivity.this, FWService.class));
     }
 
     /**
      * 检查并获取通知权限
      */
-    private void startWNLService() {
+    public void startWNLService() {
         if (isNotificationListenersEnabled() == false) {
             if (gotoNotificationAccessSetting() == false)
                 Toast.makeText(this, "监听服务开启失败", Toast.LENGTH_SHORT).show();
@@ -148,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @return
      */
-    protected boolean gotoNotificationAccessSetting() {
+    public boolean gotoNotificationAccessSetting() {
         try {
             Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
