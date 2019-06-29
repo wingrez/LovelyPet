@@ -1,3 +1,8 @@
+/***
+ * 悬浮窗服务实现类
+ * By Wingrez 201906
+ */
+
 package com.wingrez.lovelypet;
 
 import android.app.Service;
