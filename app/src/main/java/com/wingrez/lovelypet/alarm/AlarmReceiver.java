@@ -6,10 +6,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
 
-/**
- * Created by loongggdroid on 2016/3/21.
- */
-public class LoongggAlarmReceiver extends BroadcastReceiver {
+public class AlarmReceiver extends BroadcastReceiver {
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;
 
@@ -29,6 +26,5 @@ public class LoongggAlarmReceiver extends BroadcastReceiver {
         clockIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(clockIntent);
     }
-
 
 }

@@ -4,6 +4,8 @@
 
     <!--悬浮窗权限-->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <!--震动权限-->
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:allowBackup="true"
@@ -12,6 +14,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <receiver android:name="com.wingrez.lovelypet.alarm.AlarmReceiver">
+            <intent-filter>
+                <action android:name="com.wingrez.lovelypet.alarm.AlarmReceiver"/>
+            </intent-filter>
+        </receiver>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +29,7 @@
         </activity>
 
         <activity android:name=".alarm.AlarmMainActivity"></activity>
+        <activity android:name=".alarm.ClockAlarmActivity"></activity>
 
         <service android:name=".FWService"/>
         <service

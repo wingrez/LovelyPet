@@ -68,7 +68,8 @@ public class AlarmMainActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onTimeSelect(Date date) {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
-                tv_date.setText(simpleDateFormat.format(date));
+                time = simpleDateFormat.format(date);
+                tv_date.setText(time);
             }
         });
     }
@@ -90,22 +91,21 @@ public class AlarmMainActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    /**
+     * 开启闹钟
+     */
     private void setClock() {
         if (time != null && time.length() > 0) {
             String[] times = time.split(":");
             if (cycle == 0) {//eyeryday
-                AlarmManagerUtil.setAlarm(this, 0, Integer.parseInt(times[0]), Integer.parseInt
-                        (times[1]), 0, 0, "闹钟响了", ring);
-            }
-            if (cycle == -1) {//once
-                AlarmManagerUtil.setAlarm(this, 1, Integer.parseInt(times[0]), Integer.parseInt
-                        (times[1]), 0, 0, "闹钟响了", ring);
+                AlarmManagerUtil.setAlarm(this, 0, Integer.parseInt(times[0]), Integer.parseInt(times[1]), 0, 0, "闹钟响了", ring);
+            } else if (cycle == -1) {//once
+                AlarmManagerUtil.setAlarm(this, 1, Integer.parseInt(times[0]), Integer.parseInt(times[1]), 0, 0, "闹钟响了", ring);
             } else {//week
                 String weeksStr = parseRepeat(cycle, 1);
                 String[] weeks = weeksStr.split(",");
                 for (int i = 0; i < weeks.length; i++) {
-                    AlarmManagerUtil.setAlarm(this, 2, Integer.parseInt(times[0]), Integer
-                            .parseInt(times[1]), i, Integer.parseInt(weeks[i]), "闹钟响了", ring);
+                    AlarmManagerUtil.setAlarm(this, 2, Integer.parseInt(times[0]), Integer.parseInt(times[1]), i, Integer.parseInt(weeks[i]), "闹钟响了", ring);
                 }
             }
             Toast.makeText(this, "闹钟设置成功", Toast.LENGTH_LONG).show();
@@ -190,8 +190,9 @@ public class AlarmMainActivity extends AppCompatActivity implements View.OnClick
 
     /**
      * 解析二进制闹钟周期
+     *
      * @param repeat 周期值
-     * @param flag flag=0 返回“周一，周二...”，flag=1 返回“1,2,3...”
+     * @param flag   flag=0 返回“周一，周二...”，flag=1 返回“1,2,3...”
      * @return
      */
     public static String parseRepeat(int repeat, int flag) {

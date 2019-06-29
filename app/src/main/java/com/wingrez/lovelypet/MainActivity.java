@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 stopFWService(view);
                 break;
             case R.id.btn_setAlarm:
-                Intent intent=new Intent(MainActivity.this, AlarmMainActivity.class);
+                Intent intent = new Intent(MainActivity.this, AlarmMainActivity.class);
                 startActivity(intent);
                 break;
             case R.id.btn_listenWechat:
@@ -110,20 +110,20 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 检查并获取通知权限
      */
-    private void startWNLService(){
-        if(isNotificationListenersEnabled()==false){
-            if( gotoNotificationAccessSetting()==false)
+    private void startWNLService() {
+        if (isNotificationListenersEnabled() == false) {
+            if (gotoNotificationAccessSetting() == false)
                 Toast.makeText(this, "监听服务开启失败", Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(this, "请开启权限", Toast.LENGTH_SHORT).show();
-        }
-        else{
+        } else {
             Toast.makeText(this, "监听服务已开启", Toast.LENGTH_SHORT).show();
         }
     }
 
     /**
      * 判断是否拥有通知权限
+     *
      * @return
      */
     public boolean isNotificationListenersEnabled() {
@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * 打开通知权限设置界面
+     *
      * @return
      */
     protected boolean gotoNotificationAccessSetting() {
