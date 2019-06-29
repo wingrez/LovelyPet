@@ -1,5 +1,7 @@
 package com.wingrez.lovelypet;
 
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -8,6 +10,7 @@ import android.provider.AlarmClock;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -62,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent=new Intent(MainActivity.this, AlarmMainActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.btn_listenWechat:
+                startWNLService();
+                break;
             default:
                 break;
         }
@@ -101,4 +107,66 @@ public class MainActivity extends AppCompatActivity {
         stopService(new Intent(MainActivity.this, FWService.class));
     }
 
+    /**
+     * 检查并获取通知权限
+     */
+    private void startWNLService(){
+        if(isNotificationListenersEnabled()==false){
+            if( gotoNotificationAccessSetting()==false)
+                Toast.makeText(this, "监听服务开启失败", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this, "请开启权限", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(this, "监听服务已开启", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * 判断是否拥有通知权限
+     * @return
+     */
+    public boolean isNotificationListenersEnabled() {
+        String pkgName = getPackageName();
+        final String flat = Settings.Secure.getString(getContentResolver(), "enabled_notification_listeners");
+        if (!TextUtils.isEmpty(flat)) {
+            final String[] names = flat.split(":");
+            for (int i = 0; i < names.length; i++) {
+                final ComponentName cn = ComponentName.unflattenFromString(names[i]);
+                if (cn != null) {
+                    if (TextUtils.equals(pkgName, cn.getPackageName())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 打开通知权限设置界面
+     * @return
+     */
+    protected boolean gotoNotificationAccessSetting() {
+        try {
+            Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            return true;
+        } catch (ActivityNotFoundException e) { //普通情况下找不到的时候需要再特殊处理找一次
+            try {
+                Intent intent = new Intent();
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                ComponentName cn = new ComponentName("com.android.settings", "com.android.settings.Settings$NotificationAccessSettingsActivity");
+                intent.setComponent(cn);
+                intent.putExtra(":settings:show_fragment", "NotificationAccessSettings");
+                startActivity(intent);
+                return true;
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

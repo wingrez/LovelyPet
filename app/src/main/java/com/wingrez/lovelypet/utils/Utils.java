@@ -1,6 +1,16 @@
 package com.wingrez.lovelypet.utils;
 
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.provider.Settings;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
+
+import com.wingrez.lovelypet.WNLService;
 
 public class Utils {
     /**
@@ -26,4 +36,5 @@ public class Utils {
         }
         return 0;
     }
+
 }
