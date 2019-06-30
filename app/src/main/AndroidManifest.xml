@@ -42,7 +42,7 @@
         </activity>
 
         <activity android:name=".alarm.AlarmMainActivity"></activity>
-        <activity android:name=".alarm.ClockAlarmActivity"></activity>
+        <activity android:name=".alarm.RemindActivity"></activity>
 
         <service android:name=".FWService"/>
         <service

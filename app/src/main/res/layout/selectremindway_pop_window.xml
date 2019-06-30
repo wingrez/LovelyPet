@@ -27,7 +27,7 @@
             android:textColor="#000000"
             android:textSize="20sp" />
 
-        <TextView style="@style/horizontal_line_style" />
+        <TextView style="@style/window_line_style" />
 
         <TextView
             android:id="@+id/tv_ring"
@@ -42,7 +42,7 @@
             android:textSize="20sp" />
 
         <TextView
-            style="@style/horizontal_line_style"
+            style="@style/window_line_style"
             android:layout_marginBottom="20dp" />
 
     </LinearLayout>

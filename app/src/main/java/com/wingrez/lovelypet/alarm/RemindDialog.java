@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.wingrez.lovelypet.R;
 
-public class SimpleDialog extends Dialog {
+public class RemindDialog extends Dialog {
     protected static int default_width = WindowManager.LayoutParams.WRAP_CONTENT; // 默认宽度
     protected static int default_height = WindowManager.LayoutParams.WRAP_CONTENT;// 默认高度
     public static int TYPE_TWO_BT = 2;
@@ -32,11 +32,11 @@ public class SimpleDialog extends Dialog {
     ImageView icon;
 
 
-    public SimpleDialog(Context context, int style) {
+    public RemindDialog(Context context, int style) {
         super(context, R.style.FullScreenDialog);
         mContext = context;
         Log.e("errer","here1");
-        customView = LayoutInflater.from(context).inflate(R.layout.dialog_simple, null);
+        customView = LayoutInflater.from(context).inflate(R.layout.remind_dialog, null);
         Log.e("errer","here2");
         icon = (ImageView) customView.findViewById(R.id.icon);
 
@@ -64,23 +64,23 @@ public class SimpleDialog extends Dialog {
         //ButterKnife.bind(this,customView);
     }
 
-    public SimpleDialog setClickListener(View.OnClickListener listener) {
+    public RemindDialog setClickListener(View.OnClickListener listener) {
         this.listener = listener;
         bt_confirm.setOnClickListener(listener);
         return this;
     }
 
-    public SimpleDialog setMessage(String message) {
+    public RemindDialog setMessage(String message) {
         dialog_message.setText(message);
         return this;
     }
 
-    public SimpleDialog setTitle(String title) {
+    public RemindDialog setTitle(String title) {
         dialog_title.setText(title);
         return this;
     }
 
-    public SimpleDialog setIcon(int iconResId) {
+    public RemindDialog setIcon(int iconResId) {
         dialog_title.setVisibility(View.GONE);
         icon.setVisibility(View.VISIBLE);
         icon.setBackgroundResource(iconResId);

@@ -9,14 +9,14 @@ import android.view.View;
 
 import com.wingrez.lovelypet.R;
 
-public class ClockAlarmActivity extends Activity {
+public class RemindActivity extends Activity {
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_clock_alarm);
+        setContentView(R.layout.remind_main);
 
         String message = this.getIntent().getStringExtra("msg");
         int flag = this.getIntent().getIntExtra("flag", 0);
@@ -36,7 +36,7 @@ public class ClockAlarmActivity extends Activity {
             vibrator.vibrate(new long[]{100, 10, 100, 600}, 0);
         }
 
-        final SimpleDialog dialog = new SimpleDialog(this, R.style.Theme_dialog);
+        final RemindDialog dialog = new RemindDialog(this, R.style.Theme_dialog);
         dialog.show();
         dialog.setTitle("闹钟提醒");
         dialog.setMessage(message);

@@ -8,18 +8,40 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!--提醒周期-->
+    <!--周期、铃声窗口 淡入淡出-->
     <style name="AnimBottom" parent="@android:style/Animation">
         <item name="android:windowEnterAnimation">@anim/popup_alpha_out</item>
         <item name="android:windowExitAnimation">@anim/popup_alpha_in</item>
     </style>
 
-    <!--水平线-->
-    <style name="horizontal_line_style">
-        <item name="android:background">#EEEEEE</item>
+    <!--周期、铃声窗口 水平分割线-->
+    <style name="window_line_style">
+        <item name="android:background">@color/gray</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+    </style>
+
+    <!--闹钟界面 水平分割线-->
+    <style name="alarm_line_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:background">@color/gray</item>
     </style>
+
+    <!--闹钟界面 导航箭头-->
+    <style name="arrow_style">
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:background">@drawable/arrow</item>
+    </style>
+
 
     <style name="Theme_dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>

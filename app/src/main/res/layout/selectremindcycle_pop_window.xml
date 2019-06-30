@@ -26,7 +26,7 @@
             android:textColor="#000000"
             android:textSize="20sp" />
 
-        <TextView style="@style/horizontal_line_style" />
+        <TextView style="@style/window_line_style" />
 
         <TextView
             android:id="@+id/tv_cycle_everyday"
@@ -39,7 +39,7 @@
             android:textColor="#000000"
             android:textSize="20sp" />
 
-        <TextView style="@style/horizontal_line_style" />
+        <TextView style="@style/window_line_style" />
 
         <TextView
             android:id="@+id/tv_cycle_mon"
@@ -52,7 +52,7 @@
             android:textColor="#000000"
             android:textSize="20sp" />
 
-        <TextView style="@style/horizontal_line_style" />
+        <TextView style="@style/window_line_style" />
 
         <TextView
             android:id="@+id/tv_cycle_tue"
@@ -65,7 +65,7 @@
             android:textColor="#000000"
             android:textSize="20sp" />
 
-        <TextView style="@style/horizontal_line_style" />
+        <TextView style="@style/window_line_style" />
 
         <TextView
             android:id="@+id/tv_cycle_wed"
@@ -78,7 +78,7 @@
             android:textColor="#000000"
             android:textSize="20sp" />
 
-        <TextView style="@style/horizontal_line_style" />
+        <TextView style="@style/window_line_style" />
 
         <TextView
             android:id="@+id/tv_cycle_thu"
@@ -91,7 +91,7 @@
             android:textColor="#000000"
             android:textSize="20sp" />
 
-        <TextView style="@style/horizontal_line_style" />
+        <TextView style="@style/window_line_style" />
 
         <TextView
             android:id="@+id/tv_cycle_fri"
@@ -104,7 +104,7 @@
             android:textColor="#000000"
             android:textSize="20sp" />
 
-        <TextView style="@style/horizontal_line_style" />
+        <TextView style="@style/window_line_style" />
 
         <TextView
             android:id="@+id/tv_cycle_sat"
@@ -117,7 +117,7 @@
             android:textColor="#000000"
             android:textSize="20sp" />
 
-        <TextView style="@style/horizontal_line_style" />
+        <TextView style="@style/window_line_style" />
 
         <TextView
             android:id="@+id/tv_cycle_sun"
@@ -130,7 +130,7 @@
             android:textColor="#000000"
             android:textSize="20sp" />
 
-        <TextView style="@style/horizontal_line_style" />
+        <TextView style="@style/window_line_style" />
 
         <TextView
             android:id="@+id/tv_cycle_sure"
@@ -145,7 +145,7 @@
             android:textSize="20sp" />
 
         <TextView
-            style="@style/horizontal_line_style"
+            style="@style/window_line_style"
             android:layout_marginBottom="20dp" />
 
     </LinearLayout>

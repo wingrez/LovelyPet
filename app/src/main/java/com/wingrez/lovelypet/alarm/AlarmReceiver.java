@@ -20,7 +20,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                     intent);
         }
         int flag = intent.getIntExtra("soundOrVibrator", 0);
-        Intent clockIntent = new Intent(context, ClockAlarmActivity.class);
+        Intent clockIntent = new Intent(context, RemindActivity.class);
         clockIntent.putExtra("msg", msg);
         clockIntent.putExtra("flag", flag);
         clockIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

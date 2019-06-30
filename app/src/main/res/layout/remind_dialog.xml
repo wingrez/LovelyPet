@@ -31,7 +31,7 @@
             android:textColor="@color/light_black"
             android:textSize="16sp" />
 
-        <View style="@style/horizontal_line_style" />
+        <View style="@style/window_line_style" />
 
         <EditText
             android:id="@+id/dialog_message"
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <View style="@style/horizontal_line_style" />
+            <View style="@style/window_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
