@@ -19,13 +19,10 @@ import com.wingrez.lovelypet.alarm.AlarmMainActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btn_openFW;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btn_openFW = this.<Button>findViewById(R.id.btn_openFW);
     }
 
     /**
@@ -65,9 +62,12 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, AlarmMainActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.btn_listenWechat:
+            case R.id.btn_listenWechat: //监听微信
                 startWNLService();
                 break;
+            case R.id.btn_blt: //蓝牙
+                intent = new Intent(MainActivity.this, BltActivity.class);
+                startActivity(intent);
             default:
                 break;
         }
@@ -77,21 +77,21 @@ public class MainActivity extends AppCompatActivity {
      * 开启悬浮窗服务
      */
     public void startFWService() {
-        if (FWService.isFWRunning == true) { //检查悬浮窗开启状态，只允许开启一个悬浮窗
-            Toast.makeText(this, "悬浮窗已开启", Toast.LENGTH_SHORT);
+        if (FWService.isFWRunning) { //检查悬浮窗开启状态，只允许开启一个悬浮窗
+            Toast.makeText(this, "悬浮窗已开启", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { //需要判断系统版本是否大于Android 6.0
             if (!Settings.canDrawOverlays(this)) { //因为版本号大于6.0的系统才可以调用此方法，未授权状态
-                Toast.makeText(this, "未授权开启悬浮窗", Toast.LENGTH_SHORT);
+                Toast.makeText(this, "未授权开启悬浮窗", Toast.LENGTH_SHORT).show();
                 startActivityForResult(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName())), 0); //请求授权
             } else { //已授权状态
-                Toast.makeText(this, "悬浮窗已开启", Toast.LENGTH_SHORT);
+                Toast.makeText(this, "悬浮窗已开启", Toast.LENGTH_SHORT).show();
                 startService(new Intent(MainActivity.this, FWService.class));
             }
         } else { //版本号小于6.0，直接开启悬浮窗，无需授权
-            Toast.makeText(this, "悬浮窗已开启", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "悬浮窗已开启", Toast.LENGTH_SHORT).show();
             startService(new Intent(MainActivity.this, FWService.class));
         }
     }
@@ -107,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
      * 检查并获取通知权限
      */
     public void startWNLService() {
-        if (isNotificationListenersEnabled() == false) {
-            if (gotoNotificationAccessSetting() == false)
+        if (!isNotificationListenersEnabled()) {
+            if (!gotoNotificationAccessSetting())
                 Toast.makeText(this, "监听服务开启失败", Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(this, "请开启权限", Toast.LENGTH_SHORT).show();
@@ -120,15 +120,15 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 判断是否拥有通知权限
      *
-     * @return
+     * @return 是否拥有通知权限
      */
     public boolean isNotificationListenersEnabled() {
         String pkgName = getPackageName();
         final String flat = Settings.Secure.getString(getContentResolver(), "enabled_notification_listeners");
         if (!TextUtils.isEmpty(flat)) {
             final String[] names = flat.split(":");
-            for (int i = 0; i < names.length; i++) {
-                final ComponentName cn = ComponentName.unflattenFromString(names[i]);
+            for (String name : names) {
+                final ComponentName cn = ComponentName.unflattenFromString(name);
                 if (cn != null) {
                     if (TextUtils.equals(pkgName, cn.getPackageName())) {
                         return true;
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 打开通知权限设置界面
      *
-     * @return
+     * @return 是否找到通知权限设置界面
      */
     public boolean gotoNotificationAccessSetting() {
         try {
