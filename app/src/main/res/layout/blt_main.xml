@@ -8,7 +8,8 @@
         android:id="@+id/scan"
         android:text="获取本地蓝牙名称"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:onClick="onClick"/>
 
     <TextView
         android:id="@+id/localblumessage"
@@ -17,9 +18,10 @@
 
     <Button
         android:text="搜索蓝牙设备"
-        android:id="@+id/sousuo"
+        android:id="@+id/search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:onClick="onClick"/>
 
     <TextView
         android:id="@+id/bluemessage"

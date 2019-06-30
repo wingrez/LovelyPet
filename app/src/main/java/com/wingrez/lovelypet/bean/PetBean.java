@@ -1,6 +1,6 @@
 package com.wingrez.lovelypet.bean;
 
-public class Pet {
+public class PetBean {
     private String name; //姓名
     private int age; //年龄
     private int gender; //性别
@@ -26,7 +26,7 @@ public class Pet {
     private int state; //宠物状态 0->健康 1->饥饿 2->不堪 3->生病 4->逝世
 
 
-    public Pet(String name,int gender, int kind){
+    public PetBean(String name, int gender, int kind){
         setName(name);
         setAge(0);
         setGender(gender);
