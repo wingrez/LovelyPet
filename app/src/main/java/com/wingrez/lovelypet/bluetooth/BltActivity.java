@@ -25,7 +25,7 @@ import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
 import com.wingrez.lovelypet.App;
 import com.wingrez.lovelypet.R;
-import com.wingrez.lovelypet.bean.BluRxBean;
+import com.wingrez.lovelypet.bean.BltBean;
 import com.wingrez.lovelypet.utils.factory.ThreadPoolProxyFactory;
 
 import org.greenrobot.eventbus.EventBus;
@@ -228,14 +228,14 @@ public class BltActivity extends AppCompatActivity {
         try {
             bltSocket = bluetoothDevice.createRfcommSocketToServiceRecord(BltConstant.SPP_UUID);
             if (bltSocket != null) {
-                App.bluetoothSocket = bltSocket;
+                App.bltSocket = bltSocket;
                 if (bltAdapter.isDiscovering()) { //如果蓝牙在扫描，则停止扫描
                     bltAdapter.cancelDiscovery();
                 }
                 if (!bltSocket.isConnected()) { //如果蓝牙没有连接，才能连接
                     bltSocket.connect();
                 }
-                EventBus.getDefault().post(new BluRxBean(connSuccess, bluetoothDevice));
+                EventBus.getDefault().post(new BltBean(connSuccess, bluetoothDevice));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -250,23 +250,22 @@ public class BltActivity extends AppCompatActivity {
 
     /**
      * EventBus 异步
-     * 1:找到设备
+     * 1：找到设备
      * 2：扫描完成
      * 3：开始扫描
-     * 4.配对成功
-     * 11:有设备连接进来
-     * 12:连接成功
+     * 4：配对成功
+     * 11：有设备连接进来
+     * 12：连接成功
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(BluRxBean bluRxBean) {
-        Log.e("###", "get here");
+    public void onMessageEvent(BltBean bltBean) {
         Intent intent = null;
-        switch (bluRxBean.getId()) {
+        switch (bltBean.getId()) {
             case 1:
-                deviceList.add(bluRxBean.getBluetoothDevice());
+                deviceList.add(bltBean.getBluetoothDevice());
                 Map<String, String> map = new HashMap<>();
-                map.put("deviceName", bluRxBean.getBluetoothDevice().getName() + ":" + bluRxBean.getBluetoothDevice().getAddress());
-                if (bluRxBean.getBluetoothDevice().getBondState() != BluetoothDevice.BOND_BONDED) {
+                map.put("deviceName", bltBean.getBluetoothDevice().getName() + ":" + bltBean.getBluetoothDevice().getAddress());
+                if (bltBean.getBluetoothDevice().getBondState() != BluetoothDevice.BOND_BONDED) {
                     map.put("statue", "未配对");
                 } else {
                     map.put("statue", "已配对");
@@ -283,16 +282,14 @@ public class BltActivity extends AppCompatActivity {
                 break;
             case 11:
             case 12:
-                Log.e("###", "get12");
                 alertDialog.dismiss();
-                intent = new Intent(BltActivity.this, Tongxun.class);
-                intent.putExtra("devicename", bluRxBean.getBluetoothDevice().getName());
+                intent = new Intent(BltActivity.this, BltCommunicate.class);
+                intent.putExtra("devicename", bltBean.getBluetoothDevice().getName());
                 startActivity(intent);
                 break;
             default:
                 break;
         }
     }
-
 
 }

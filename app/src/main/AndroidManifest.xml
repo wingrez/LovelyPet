@@ -13,6 +13,10 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!--要求蓝牙4.0-->
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -49,7 +53,7 @@
         <activity android:name=".alarm.AlarmMainActivity"></activity>
         <activity android:name=".alarm.RemindActivity"></activity>
         <activity android:name=".bluetooth.BltActivity"></activity>
-        <activity android:name=".bluetooth.Tongxun"></activity>
+        <activity android:name=".bluetooth.BltCommunicate"></activity>
 
         <service android:name=".FWService" />
         <service

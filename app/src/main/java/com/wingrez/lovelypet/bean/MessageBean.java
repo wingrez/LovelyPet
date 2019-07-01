@@ -1,8 +1,6 @@
 package com.wingrez.lovelypet.bean;
 
 /**
- * Created by Huanglinqing on 2018/8/25/025 20:58
- * E-Mail Address：1306214077@qq.com
  * 发送消息 Eventbus对应的实体类
  */
 public class MessageBean {

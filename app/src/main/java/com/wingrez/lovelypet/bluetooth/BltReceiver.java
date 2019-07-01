@@ -10,10 +10,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.wingrez.lovelypet.App;
-import com.wingrez.lovelypet.bean.BluRxBean;
+import com.wingrez.lovelypet.bean.BltBean;
 
 import org.greenrobot.eventbus.EventBus;
 
+/**
+ * 蓝牙设备接收器
+ */
 public class BltReceiver extends BroadcastReceiver {
 
     private static final int FIND_DEVICE = 1; //查找设备
@@ -52,15 +55,15 @@ public class BltReceiver extends BroadcastReceiver {
             case BluetoothDevice.ACTION_FOUND: //找到设备
                 Log.e("BltReceiver", "找到设备");
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                EventBus.getDefault().post(new BluRxBean(FIND_DEVICE, device));
+                EventBus.getDefault().post(new BltBean(FIND_DEVICE, device));
                 break;
             case BluetoothAdapter.ACTION_DISCOVERY_FINISHED: //搜索完成
                 Log.e("BltReceiver", "搜索完成");
-                EventBus.getDefault().post(new BluRxBean(FIND_DEVICE_FINISHED));
+                EventBus.getDefault().post(new BltBean(FIND_DEVICE_FINISHED));
                 break;
             case BluetoothAdapter.ACTION_DISCOVERY_STARTED: //开始扫描
                 Log.e("BltReceiver", "开始扫描");
-                EventBus.getDefault().post(new BluRxBean(FIND_STARTED));
+                EventBus.getDefault().post(new BltBean(FIND_STARTED));
                 break;
             case BluetoothDevice.ACTION_BOND_STATE_CHANGED: //状态改变
                 device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);

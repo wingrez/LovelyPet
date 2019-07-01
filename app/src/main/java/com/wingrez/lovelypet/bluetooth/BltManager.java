@@ -24,9 +24,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * Created by Huanglinqing on 2018/8/25.  项目中用  demo不使用
  * 蓝牙对象管理器
- * 蓝牙4.0 必须在api18 android4.3以上才能运行
+ * 蓝牙4.0 api18 android4.3以上方可运行
  */
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class BltManager {
@@ -148,7 +147,7 @@ public class BltManager {
             // 显示所有收到的消息及其细节
             for (int i = 0; i < lstName.length; i++) {
                 String keyName = lstName[i].toString();
-                Log.e("bluetooth", keyName + ">>>" + String.valueOf(b.get(keyName)));
+                Log.e("BltManager", keyName + ">>>" + String.valueOf(b.get(keyName)));
             }
             BluetoothDevice device;
             // 搜索发现设备时，取得设备的信息；注意，这里有可能重复搜索同一设备
@@ -161,7 +160,7 @@ public class BltManager {
                 device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 switch (device.getBondState()) {
                     case BluetoothDevice.BOND_BONDING://正在配对
-                        Log.d("BlueToothTestActivity", "正在配对......");
+                        Log.d("BlueToothTestActivity", "正在配对");
                         onRegisterBltReceiver.onBltIng(device);
                         break;
                     case BluetoothDevice.BOND_BONDED://配对结束
@@ -223,10 +222,10 @@ public class BltManager {
             mBluetoothSocket = btDev.createRfcommSocketToServiceRecord(BltConstant.SPP_UUID);
             if (mBluetoothSocket != null)
                 //全局只有一个bluetooth，所以我们可以将这个socket对象保存在appliaction中
-                App.bluetoothSocket = mBluetoothSocket;
+                App.bltSocket = mBluetoothSocket;
             //通过反射得到bltSocket对象，与uuid进行连接得到的结果一样，但这里不提倡用反射的方法
             //mBluetoothSocket = (BluetoothSocket) btDev.getClass().getMethod("createRfcommSocket", new Class[]{int.class}).invoke(btDev, 1);
-            Log.d("blueTooth", "开始连接...");
+            Log.e("BltManager", "开始连接");
             //在建立之前调用
             if (getmBluetoothAdapter().isDiscovering())
                 //停止搜索
@@ -237,7 +236,7 @@ public class BltManager {
                 // 如果搜索设备也在同时进行，那么将会显著地降低连接速率，并很大程度上会连接失败。
                 getmBluetoothSocket().connect();
             }
-            Log.d("blueTooth", "已经链接");
+            Log.d("BltManager", "已经连接");
             if (handler == null) return;
             //结果回调
             Message message = new Message();
@@ -245,7 +244,7 @@ public class BltManager {
             message.obj = btDev;
             handler.sendMessage(message);
         } catch (Exception e) {
-            Log.e("blueTooth", "...链接失败");
+            Log.e("BltManager", "连接失败");
             try {
                 getmBluetoothSocket().close();
             } catch (IOException e1) {
@@ -355,7 +354,7 @@ public class BltManager {
         //如果当前发现了新的设备，则停止继续扫描，当前扫描到的新设备会通过广播推向新的逻辑
         if (getmBluetoothAdapter().isDiscovering())
             stopSearthBltDevice();
-        Log.i("com/wingrez/lovelypet/bluetooth", "本机蓝牙地址：" + getmBluetoothAdapter().getAddress());
+        Log.i("BltManager", "本机蓝牙地址：" + getmBluetoothAdapter().getAddress());
         //开始搜索
         getmBluetoothAdapter().startDiscovery();
         return true;

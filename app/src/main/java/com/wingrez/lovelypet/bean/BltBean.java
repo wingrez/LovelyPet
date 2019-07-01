@@ -2,16 +2,16 @@ package com.wingrez.lovelypet.bean;
 
 import android.bluetooth.BluetoothDevice;
 
-public class BluRxBean {
+public class BltBean {
 
     public int id;
     public BluetoothDevice bluetoothDevice;
 
-    public BluRxBean(int id) {
+    public BltBean(int id) {
         this.id = id;
     }
 
-    public BluRxBean(int id, BluetoothDevice bluetoothDevice) {
+    public BltBean(int id, BluetoothDevice bluetoothDevice) {
         this.id = id;
         this.bluetoothDevice = bluetoothDevice;
     }

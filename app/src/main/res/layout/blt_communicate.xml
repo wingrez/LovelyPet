@@ -4,13 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <hlq.widget.TitleBar
-        android:id="@+id/titlebar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></hlq.widget.TitleBar>
-
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/tvDeviceName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -20,7 +15,7 @@
         android:layout_weight="1">
 
         <LinearLayout
-            android:id="@+id/content_ly"
+            android:id="@+id/lyMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -34,21 +29,16 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/go_edit_text"
+            android:id="@+id/etMessage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-           />
+            android:layout_height="wrap_content" />
 
         <Button
-            android:id="@+id/go_text_btn"
+            android:id="@+id/btnSend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="发送文字" />
+            android:text="发送消息"
+            android:onClick="onClick"/>
 
-        <Button
-            android:id="@+id/go_file_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="发送默认文件" />
     </LinearLayout>
 </LinearLayout>

@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * 按钮点击事件
+     * 控件点击事件
      *
      * @param view
      */
