@@ -1,4 +1,4 @@
-package com.wingrez.lovelypet.bluetooth;
+package com.wingrez.lovelypet.manager;
 
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
@@ -18,6 +18,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.wingrez.lovelypet.App;
+import com.wingrez.lovelypet.utils.BltConstant;
 
 import java.io.IOException;
 import java.util.Iterator;

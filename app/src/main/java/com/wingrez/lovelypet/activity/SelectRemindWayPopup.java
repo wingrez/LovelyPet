@@ -1,4 +1,4 @@
-package com.wingrez.lovelypet.alarm;
+package com.wingrez.lovelypet.activity;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;

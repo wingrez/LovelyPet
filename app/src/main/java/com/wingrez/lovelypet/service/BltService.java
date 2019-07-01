@@ -1,4 +1,4 @@
-package com.wingrez.lovelypet.bluetooth;
+package com.wingrez.lovelypet.service;
 
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.wingrez.lovelypet.App;
 import com.wingrez.lovelypet.bean.BltBean;
+import com.wingrez.lovelypet.utils.BltConstant;
+import com.wingrez.lovelypet.manager.BltManager;
 
 import org.greenrobot.eventbus.EventBus;
 

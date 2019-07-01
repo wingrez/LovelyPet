@@ -1,4 +1,4 @@
-package com.wingrez.lovelypet.bluetooth;
+package com.wingrez.lovelypet.utils;
 
 import java.util.UUID;
 

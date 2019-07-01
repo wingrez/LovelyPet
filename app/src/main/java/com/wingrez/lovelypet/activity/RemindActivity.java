@@ -1,4 +1,4 @@
-package com.wingrez.lovelypet.alarm;
+package com.wingrez.lovelypet.activity;
 
 import android.app.Activity;
 import android.app.Service;

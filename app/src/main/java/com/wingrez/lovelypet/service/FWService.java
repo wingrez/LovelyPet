@@ -3,7 +3,7 @@
  * By Wingrez 201906
  */
 
-package com.wingrez.lovelypet;
+package com.wingrez.lovelypet.service;
 
 import android.app.Service;
 import android.content.Intent;
@@ -20,6 +20,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+
+import com.wingrez.lovelypet.R;
 
 import static com.wingrez.lovelypet.utils.Utils.*;
 

@@ -1,4 +1,4 @@
-package com.wingrez.lovelypet.bluetooth;
+package com.wingrez.lovelypet.receiver;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;

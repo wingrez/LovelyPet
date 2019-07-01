@@ -1,4 +1,4 @@
-package com.wingrez.lovelypet;
+package com.wingrez.lovelypet.activity;
 
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
@@ -13,9 +13,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
-import com.wingrez.lovelypet.alarm.AlarmMainActivity;
-
-import com.wingrez.lovelypet.bluetooth.BltActivity;
+import com.wingrez.lovelypet.service.FWService;
+import com.wingrez.lovelypet.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 stopFWService();
                 break;
             case R.id.btn_setAlarm:
-                Intent intent = new Intent(MainActivity.this, AlarmMainActivity.class);
+                Intent intent = new Intent(MainActivity.this, AlmActivity.class);
                 startActivity(intent);
                 break;
             case R.id.btn_listenWechat: //监听微信

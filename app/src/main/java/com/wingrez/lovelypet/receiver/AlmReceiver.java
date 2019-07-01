@@ -1,4 +1,4 @@
-package com.wingrez.lovelypet.alarm;
+package com.wingrez.lovelypet.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
 
-public class AlarmReceiver extends BroadcastReceiver {
+import com.wingrez.lovelypet.activity.RemindActivity;
+import com.wingrez.lovelypet.manager.AlmManager;
+
+public class AlmReceiver extends BroadcastReceiver {
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;
 
@@ -16,7 +19,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         String msg = intent.getStringExtra("msg");
         long intervalMillis = intent.getLongExtra("intervalMillis", 0);
         if (intervalMillis != 0) {
-            AlarmManagerUtil.setAlarmTime(context, System.currentTimeMillis() + intervalMillis,
+            AlmManager.setAlarmTime(context, System.currentTimeMillis() + intervalMillis,
                     intent);
         }
         int flag = intent.getIntExtra("soundOrVibrator", 0);

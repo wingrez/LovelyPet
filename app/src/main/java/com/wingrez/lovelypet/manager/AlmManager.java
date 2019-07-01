@@ -1,4 +1,4 @@
-package com.wingrez.lovelypet.alarm;
+package com.wingrez.lovelypet.manager;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -8,8 +8,8 @@ import android.os.Build;
 
 import java.util.Calendar;
 
-public class AlarmManagerUtil {
-    public static final String ALARM_ACTION = "com.wingrez.lovelypet.alarm.AlarmReceiver";
+public class AlmManager {
+    public static final String ALARM_ACTION = "com.wingrez.lovelypet.receiver.AlmReceiver";
 
     /**
      * 开启闹钟

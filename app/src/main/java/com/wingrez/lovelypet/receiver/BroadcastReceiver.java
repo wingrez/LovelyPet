@@ -1,8 +1,9 @@
-package com.wingrez.lovelypet;
+package com.wingrez.lovelypet.receiver;
 
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
+
+import com.wingrez.lovelypet.service.FWService;
 
 public class BroadcastReceiver extends android.content.BroadcastReceiver {
     private static final String ACTION_BOOT = "android.intent.action.BOOT_COMPLETED";

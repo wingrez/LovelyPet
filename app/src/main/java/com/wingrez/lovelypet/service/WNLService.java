@@ -3,7 +3,7 @@
  * By Wingrez 201906
  */
 
-package com.wingrez.lovelypet;
+package com.wingrez.lovelypet.service;
 
 import android.app.Notification;
 import android.app.PendingIntent;

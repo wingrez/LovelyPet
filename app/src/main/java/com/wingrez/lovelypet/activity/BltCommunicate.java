@@ -1,4 +1,4 @@
-package com.wingrez.lovelypet.bluetooth;
+package com.wingrez.lovelypet.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +13,9 @@ import android.widget.Toast;
 import com.wingrez.lovelypet.App;
 import com.wingrez.lovelypet.R;
 import com.wingrez.lovelypet.bean.MessageBean;
+import com.wingrez.lovelypet.service.BltReceiveSocketService;
+import com.wingrez.lovelypet.service.BltSendSocketService;
+import com.wingrez.lovelypet.utils.BltConstant;
 import com.wingrez.lovelypet.utils.factory.ThreadPoolProxyFactory;
 
 import org.greenrobot.eventbus.EventBus;

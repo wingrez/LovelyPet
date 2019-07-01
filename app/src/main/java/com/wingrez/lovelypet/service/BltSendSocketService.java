@@ -1,10 +1,11 @@
-package com.wingrez.lovelypet.bluetooth;
+package com.wingrez.lovelypet.service;
 
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.wingrez.lovelypet.App;
 import com.wingrez.lovelypet.bean.MessageBean;
+import com.wingrez.lovelypet.utils.BltConstant;
 
 import org.greenrobot.eventbus.EventBus;
 
