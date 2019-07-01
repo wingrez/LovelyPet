@@ -15,7 +15,6 @@ public class AlmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        // TODO Auto-generated method stub
         String msg = intent.getStringExtra("msg");
         long intervalMillis = intent.getLongExtra("intervalMillis", 0);
         if (intervalMillis != 0) {

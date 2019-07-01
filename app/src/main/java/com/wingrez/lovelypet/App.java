@@ -3,22 +3,21 @@ package com.wingrez.lovelypet;
 import android.app.Application;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+
+import com.wingrez.lovelypet.service.NotificationCollectorMonitorService;
 
 public class App extends Application {
 
-    //无论是蓝牙客户端还是服务器端，得到socket对象后都传入
-    public static BluetoothSocket bltSocket;
     public static Context context;
+    public static BluetoothSocket bltSocket;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
         context = getApplicationContext();
-        com.orhanobut.logger.Logger.init();
-    }
-    
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
+        startService(new Intent(this, NotificationCollectorMonitorService.class));
     }
 }

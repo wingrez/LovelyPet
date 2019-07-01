@@ -3,6 +3,7 @@ package com.wingrez.lovelypet.activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,11 +11,13 @@ import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.wingrez.lovelypet.service.FWService;
 import com.wingrez.lovelypet.R;
+import com.wingrez.lovelypet.service.NotificationCollectorMonitorService;
 
 public class MainActivity extends AppCompatActivity {
 
