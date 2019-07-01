@@ -14,6 +14,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -42,6 +43,7 @@ public class FWService extends Service {
 
     private int screenWidth;
     private int screenHeight;
+    private float attachLength;
 
     @Override
     public void onCreate() {
@@ -55,8 +57,11 @@ public class FWService extends Service {
         //获取屏幕宽度和高度
         DisplayMetrics displayMetrics = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-        screenWidth = displayMetrics.widthPixels;         // 屏幕宽度（像素） 540
-        screenHeight = displayMetrics.heightPixels;       // 屏幕高度（像素） 960
+        screenWidth = displayMetrics.widthPixels;         // 屏幕宽度（像素）
+        screenHeight = displayMetrics.heightPixels;       // 屏幕高度（像素）
+        attachLength=TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM,5,getResources().getDisplayMetrics());
+        Log.e("screenWidth", screenWidth + "");
+        Log.e("screenHeight", screenHeight + "");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //系统版本号大于等于8.0
             layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
@@ -113,7 +118,8 @@ public class FWService extends Service {
      */
     private void setViewPosition(int x, int y) {
         if (x < 0) layoutParams.x = 0;
-        else if (x > screenWidth - getViewWidth(fwView)) layoutParams.x = screenWidth - getViewWidth(fwView);
+        else if (x > screenWidth - getViewWidth(fwView))
+            layoutParams.x = screenWidth - getViewWidth(fwView);
         else layoutParams.x = x;
 
         if (y < 0) layoutParams.y = 0;
@@ -190,13 +196,15 @@ public class FWService extends Service {
                     break;
                 case MotionEvent.ACTION_UP: //抬起动作，自动吸附屏幕边缘
                     isFWMoving = false;
-                    if (layoutParams.x < 30 || layoutParams.x+getViewWidth(fwView) > screenWidth - 30) {
+                    if (layoutParams.x < attachLength || layoutParams.x + getViewWidth(fwView) > screenWidth - attachLength) {
                         moveX = layoutParams.x <= screenWidth / 2 ? 0 : screenWidth;
                         setViewPosition((int) moveX, layoutParams.y);
                         windowManager.updateViewLayout(fwView, layoutParams);
                         break;
                     }
-                    if (layoutParams.y < 30 || layoutParams.y+getViewHeight(fwView) > screenHeight - 30) {
+                    Log.e("ly+vh",layoutParams.y+getViewHeight(fwView)+"");
+                    Log.e("stand",screenHeight-attachLength+"");
+                    if (layoutParams.y < attachLength || layoutParams.y + getViewHeight(fwView) > screenHeight-attachLength) {
                         moveY = layoutParams.y <= screenHeight / 2 ? 0 : screenHeight;
                         setViewPosition(layoutParams.x, (int) moveY);
                         windowManager.updateViewLayout(fwView, layoutParams);
