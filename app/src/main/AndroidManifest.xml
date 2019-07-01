@@ -3,26 +3,28 @@
     package="com.wingrez.lovelypet">
 
     <!--悬浮窗权限-->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <!--震动权限-->
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
     <!--开机自启权限-->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!--蓝牙权限-->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-    android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
         <receiver android:name="com.wingrez.lovelypet.alarm.AlarmReceiver">
             <intent-filter>
-                <action android:name="com.wingrez.lovelypet.alarm.AlarmReceiver"/>
+                <action android:name="com.wingrez.lovelypet.alarm.AlarmReceiver" />
             </intent-filter>
         </receiver>
 
@@ -49,7 +51,7 @@
         <activity android:name=".bluetooth.BltActivity"></activity>
         <activity android:name=".bluetooth.Tongxun"></activity>
 
-        <service android:name=".FWService"/>
+        <service android:name=".FWService" />
         <service
             android:name=".WNLService"
             android:label="@string/app_name"
@@ -58,7 +60,7 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
-        
+
     </application>
 
 </manifest>
