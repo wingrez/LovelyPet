@@ -4,11 +4,8 @@ import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
-import com.orhanobut.logger.Logger;
 import com.wingrez.lovelypet.App;
 import com.wingrez.lovelypet.bean.BluRxBean;
-import com.wingrez.lovelypet.bluetooth.BltConstant;
-import com.wingrez.lovelypet.bluetooth.BltManager;
 
 import org.greenrobot.eventbus.EventBus;
 

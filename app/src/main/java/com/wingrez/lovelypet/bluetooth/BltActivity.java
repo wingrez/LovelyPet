@@ -57,7 +57,7 @@ public class BltActivity extends AppCompatActivity {
 
     private BluetoothManager bltManger; //蓝牙管理器
     private BluetoothAdapter bltAdapter; //蓝牙适配器
-    private BlueToothReceiver blueToothReceiver;
+    private BltReceiver bltReceiver;
 
     private SimpleAdapter simpleAdapter;
 
@@ -72,8 +72,8 @@ public class BltActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.blt_main);
         EventBus.getDefault().register(this);
-        blueToothReceiver = new BlueToothReceiver();
-        registerReceiver(blueToothReceiver, blueToothReceiver.makeFilter());
+        bltReceiver = new BltReceiver();
+        registerReceiver(bltReceiver, bltReceiver.makeFilter());
         BltManager.getInstance().initBltManager(this);
         initView();
         initBlt();
@@ -92,7 +92,7 @@ public class BltActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(blueToothReceiver);
+        unregisterReceiver(bltReceiver);
         EventBus.getDefault().unregister(this);
     }
 
@@ -186,7 +186,6 @@ public class BltActivity extends AppCompatActivity {
         startActivity(intent);
 
         listMap.clear();
-        listview.setAdapter(null);
 
         if (simpleAdapter != null) {
             simpleAdapter.notifyDataSetChanged();
@@ -203,16 +202,14 @@ public class BltActivity extends AppCompatActivity {
         });
 
         //开始扫描
-        Log.d("开始扫描", "开始扫描了");
         Acp.getInstance(this).request(new AcpOptions.Builder().setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION).build(),
                 new AcpListener() {
                     @Override
                     public void onGranted() {
-                        Log.d("来到这里了", "来到这里了......");
-                        if (bltAdapter.isDiscovering()) {
-                            bltAdapter.cancelDiscovery();
+                        if (bltAdapter.isDiscovering()) { //如果蓝牙正在扫描
+                            bltAdapter.cancelDiscovery(); //取消扫描
                         }
-                        bltAdapter.startDiscovery();
+                        bltAdapter.startDiscovery(); //开始扫描
                     }
 
                     @Override
