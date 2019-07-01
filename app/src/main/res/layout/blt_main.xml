@@ -5,31 +5,27 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/scan"
+        android:id="@+id/btn_getLocalBlt"
         android:text="获取本地蓝牙名称"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClick"/>
 
     <TextView
-        android:id="@+id/localblumessage"
+        android:id="@+id/tvLocalBlt"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"/>
 
     <Button
         android:text="搜索蓝牙设备"
-        android:id="@+id/search"
+        android:id="@+id/btnSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClick"/>
 
     <TextView
-        android:id="@+id/bluemessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/scanfinnish"
+        android:id="@+id/tvBltDevice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

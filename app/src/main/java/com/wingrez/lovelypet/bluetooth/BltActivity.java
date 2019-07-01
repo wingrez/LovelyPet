@@ -43,11 +43,8 @@ import recycleview.huanglinqing.com.dialogutils.DialogUtils;
 
 public class BltActivity extends AppCompatActivity {
 
-    //    private Button scan;
-//    private Button search;
-    private TextView localblumessage;
-    private TextView bluemessage;
-    //    private TextView scanfinnish;
+    private TextView tvLocalBlt;
+    private TextView tvBltDevice;
     private ListView lvDevice;
 
     private List<Map<String, String>> listMap; //用来存放<设备名称, 设备地址>的列表
@@ -61,7 +58,7 @@ public class BltActivity extends AppCompatActivity {
 
     private SimpleAdapter simpleAdapter;
 
-    private BluetoothSocket mBluetoothSocket; //配对成功后的蓝牙套接字
+    private BluetoothSocket bltSocket; //配对成功后的蓝牙套接字
 
     private int connSuccess = 12;//连接成功
 
@@ -102,11 +99,8 @@ public class BltActivity extends AppCompatActivity {
      * 初始化View和点击方法
      */
     public void initView() {
-//        scan = findViewById(R.id.scan);
-//        search = findViewById(R.id.search);
-        localblumessage = findViewById(R.id.localblumessage);
-        bluemessage = findViewById(R.id.bluemessage);
-//        scanfinnish = findViewById(R.id.scanfinnish);
+        tvLocalBlt = findViewById(R.id.tvLocalBlt);
+        tvBltDevice = findViewById(R.id.tvBltDevice);
         lvDevice = findViewById(R.id.lvDevice);
 
         listMap = new ArrayList<>();
@@ -119,17 +113,18 @@ public class BltActivity extends AppCompatActivity {
                 Map<String, String> map;
                 map = listMap.get(position);
                 if (map.get("statue").equals("已配对")) { //如果状态是“已配对”
-                    alertDialog = DialogUtils.dialogloading(BltActivity.this, "正在连接", false, false);
+                    alertDialog = DialogUtils.dialogloading(BltActivity.this, "正在连接", false, false); //弹出提示框
                     ThreadPoolProxyFactory.getNormalThreadPoolProxy().execute(new Runnable() {
                         @Override
                         public void run() {
-                            Log.e("tag", "正在连接");
+                            Log.e("BltActivity", "正在连接");
                             connect(deviceList.get(position));
                         }
                     });
-                } else {
+                } else { //状态为“未配对”
                     try {
                         //如果想要取消已经配对的设备，只需要将 createBond 改为 removeBond
+                        Log.e("BltActivity", "正在配对");
                         Method method = BluetoothDevice.class.getMethod("createBond");
                         method.invoke(deviceList.get(position));
                     } catch (Exception e) {
@@ -140,14 +135,19 @@ public class BltActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * 控件点击事件
+     *
+     * @param view
+     */
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.scan:
+            case R.id.btn_getLocalBlt:
                 String name = bltAdapter.getName(); //获取本地蓝牙名称
                 String address = bltAdapter.getAddress(); //获取本地蓝牙地址
-                localblumessage.setText("本地蓝牙名称:" + name + "\n" + "本地蓝牙地址:" + address);
+                tvLocalBlt.setText("本地蓝牙名称:" + name + "\n" + "本地蓝牙地址:" + address);
                 break;
-            case R.id.search: //搜索蓝牙设备
+            case R.id.btnSearch: //搜索蓝牙设备
                 if (!isBltEnable()) { //如果蓝牙不可用，打开蓝牙
                     Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE); //请求用户选择是否打开蓝牙
                     startActivityForResult(intent, 1);
@@ -192,7 +192,6 @@ public class BltActivity extends AppCompatActivity {
 
         if (simpleAdapter != null) {
             simpleAdapter.notifyDataSetChanged();
-            bluemessage.setText("");
             deviceList.clear();
         }
 
@@ -223,25 +222,25 @@ public class BltActivity extends AppCompatActivity {
     }
 
     /***
-     * 蓝牙连接代码,项目中连接会使用封装的工具类，在这里提取重写
+     * 连接蓝牙
      */
     private void connect(BluetoothDevice bluetoothDevice) {
         try {
-            mBluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(BltConstant.SPP_UUID);
-            if (mBluetoothSocket != null) {
-                App.bluetoothSocket = mBluetoothSocket;
-                if (bltAdapter.isDiscovering()) {
+            bltSocket = bluetoothDevice.createRfcommSocketToServiceRecord(BltConstant.SPP_UUID);
+            if (bltSocket != null) {
+                App.bluetoothSocket = bltSocket;
+                if (bltAdapter.isDiscovering()) { //如果蓝牙在扫描，则停止扫描
                     bltAdapter.cancelDiscovery();
                 }
-                if (!mBluetoothSocket.isConnected()) {
-                    mBluetoothSocket.connect();
+                if (!bltSocket.isConnected()) { //如果蓝牙没有连接，才能连接
+                    bltSocket.connect();
                 }
                 EventBus.getDefault().post(new BluRxBean(connSuccess, bluetoothDevice));
             }
         } catch (IOException e) {
             e.printStackTrace();
             try {
-                mBluetoothSocket.close();
+                bltSocket.close();
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
@@ -265,7 +264,6 @@ public class BltActivity extends AppCompatActivity {
         switch (bluRxBean.getId()) {
             case 1:
                 deviceList.add(bluRxBean.getBluetoothDevice());
-                bluemessage.append(bluRxBean.getBluetoothDevice().getName() + ":" + bluRxBean.getBluetoothDevice().getAddress());
                 Map<String, String> map = new HashMap<>();
                 map.put("deviceName", bluRxBean.getBluetoothDevice().getName() + ":" + bluRxBean.getBluetoothDevice().getAddress());
                 if (bluRxBean.getBluetoothDevice().getBondState() != BluetoothDevice.BOND_BONDED) {
@@ -274,7 +272,7 @@ public class BltActivity extends AppCompatActivity {
                     map.put("statue", "已配对");
                 }
                 listMap.add(map);
-                simpleAdapter = new SimpleAdapter(BltActivity.this, listMap, R.layout.blt_devices, new String[]{"deviceName", "statue"}, new int[]{R.id.devicename, R.id.statue});
+                simpleAdapter = new SimpleAdapter(BltActivity.this, listMap, R.layout.blt_devices, new String[]{"deviceName", "statue"}, new int[]{R.id.tvDeviceName, R.id.statue});
                 lvDevice.setAdapter(simpleAdapter);
                 break;
             case 2:
