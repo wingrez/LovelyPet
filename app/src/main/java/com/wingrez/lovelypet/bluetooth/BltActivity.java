@@ -43,14 +43,14 @@ import recycleview.huanglinqing.com.dialogutils.DialogUtils;
 
 public class BltActivity extends AppCompatActivity {
 
-//    private Button scan;
+    //    private Button scan;
 //    private Button search;
     private TextView localblumessage;
     private TextView bluemessage;
-//    private TextView scanfinnish;
+    //    private TextView scanfinnish;
     private ListView listview;
 
-    private List<Map<String, String>> list; //
+    private List<Map<String, String>> listMap; //
     private List<BluetoothDevice> deviceList; //
 
     private AlertDialog alertDialog; //对话框
@@ -71,7 +71,7 @@ public class BltActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.blt_main);
-
+        EventBus.getDefault().register(this);
         blueToothReceiver = new BlueToothReceiver();
         registerReceiver(blueToothReceiver, blueToothReceiver.makeFilter());
         BltManager.getInstance().initBltManager(this);
@@ -107,7 +107,7 @@ public class BltActivity extends AppCompatActivity {
 //        scanfinnish = findViewById(R.id.scanfinnish);
         listview = findViewById(R.id.listview);
 
-        list = new ArrayList<>();
+        listMap = new ArrayList<>();
         deviceList = new ArrayList<>();
 
         //列表点击“已配对”
@@ -115,7 +115,7 @@ public class BltActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 Map<String, String> map;
-                map = list.get(position);
+                map = listMap.get(position);
                 if (map.get("statue").equals("已配对")) {
                     alertDialog = DialogUtils.dialogloading(BltActivity.this, "正在连接", false, false);
                     ThreadPoolProxyFactory.getNormalThreadPoolProxy().execute(new Runnable() {
@@ -146,18 +146,20 @@ public class BltActivity extends AppCompatActivity {
                 localblumessage.setText("本地蓝牙名称:" + name + "\n" + "本地蓝牙地址:" + address);
                 break;
             case R.id.search: //搜索蓝牙设备
-                if (!isBltEnable()) {
-                    Intent intent = new Intent(bltAdapter.ACTION_REQUEST_ENABLE);
+                if (!isBltEnable()) { //如果蓝牙不可用，打开蓝牙
+                    Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE); //请求用户选择是否打开蓝牙
                     startActivityForResult(intent, 1);
                 } else {
                     scanBlt();
                 }
                 break;
+            default:
+                break;
         }
     }
 
     /**
-     * 初始化本地蓝牙设备
+     * 初始化本地蓝牙设备，检查设备是否支持蓝牙
      */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     private void initBlt() {
@@ -179,10 +181,13 @@ public class BltActivity extends AppCompatActivity {
      * 扫描蓝牙设备
      */
     private void scanBlt() {
+        //请求用户选择是否使该蓝牙能被扫描
         Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
         startActivity(intent);
 
-        list.clear();
+        listMap.clear();
+        listview.setAdapter(null);
+
         if (simpleAdapter != null) {
             simpleAdapter.notifyDataSetChanged();
             bluemessage.setText("");
@@ -255,12 +260,12 @@ public class BltActivity extends AppCompatActivity {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BluRxBean bluRxBean) {
-        Log.e("###","get here");
+        Log.e("###", "get here");
         Intent intent = null;
         switch (bluRxBean.getId()) {
             case 1:
                 deviceList.add(bluRxBean.getBluetoothDevice());
-                bluemessage.append(bluRxBean.getBluetoothDevice().getName() + ":" + bluRxBean.getBluetoothDevice().getAddress() + "\n");
+                bluemessage.append(bluRxBean.getBluetoothDevice().getName() + ":" + bluRxBean.getBluetoothDevice().getAddress());
                 Map<String, String> map = new HashMap<>();
                 map.put("deviceName", bluRxBean.getBluetoothDevice().getName() + ":" + bluRxBean.getBluetoothDevice().getAddress());
                 if (bluRxBean.getBluetoothDevice().getBondState() != BluetoothDevice.BOND_BONDED) {
@@ -268,8 +273,8 @@ public class BltActivity extends AppCompatActivity {
                 } else {
                     map.put("statue", "已配对");
                 }
-                list.add(map);
-                simpleAdapter = new SimpleAdapter(BltActivity.this, list, R.layout.blt_devices, new String[]{"deviceName", "statue"}, new int[]{R.id.devicename, R.id.statue});
+                listMap.add(map);
+                simpleAdapter = new SimpleAdapter(BltActivity.this, listMap, R.layout.blt_devices, new String[]{"deviceName", "statue"}, new int[]{R.id.devicename, R.id.statue});
                 listview.setAdapter(simpleAdapter);
                 break;
             case 2:
@@ -280,7 +285,7 @@ public class BltActivity extends AppCompatActivity {
                 break;
             case 11:
             case 12:
-                Log.e("###","get12");
+                Log.e("###", "get12");
                 alertDialog.dismiss();
                 intent = new Intent(BltActivity.this, Tongxun.class);
                 intent.putExtra("devicename", bluRxBean.getBluetoothDevice().getName());

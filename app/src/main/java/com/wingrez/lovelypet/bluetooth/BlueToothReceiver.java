@@ -66,10 +66,10 @@ public class BlueToothReceiver extends BroadcastReceiver {
                     case BluetoothDevice.BOND_NONE:
                         break;
                     case BluetoothDevice.BOND_BONDING:
-                        Toast.makeText(App.context, "配对中", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(App.context, "配对中", Toast.LENGTH_SHORT).show();
                         break;
                     case BluetoothDevice.BOND_BONDED:
-                        Toast.makeText(App.context, "配对成功", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(App.context, "配对成功", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 break;
