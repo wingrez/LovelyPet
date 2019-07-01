@@ -48,9 +48,9 @@ public class BltActivity extends AppCompatActivity {
     private TextView localblumessage;
     private TextView bluemessage;
     //    private TextView scanfinnish;
-    private ListView listview;
+    private ListView lvDevice;
 
-    private List<Map<String, String>> listMap; //
+    private List<Map<String, String>> listMap; //用来存放<设备名称, 设备地址>的列表
     private List<BluetoothDevice> deviceList; //
 
     private AlertDialog alertDialog; //对话框
@@ -72,8 +72,10 @@ public class BltActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.blt_main);
         EventBus.getDefault().register(this);
+        //注册蓝牙广播接受者
         bltReceiver = new BltReceiver();
         registerReceiver(bltReceiver, bltReceiver.makeFilter());
+        //初始化
         BltManager.getInstance().initBltManager(this);
         initView();
         initBlt();
@@ -105,18 +107,18 @@ public class BltActivity extends AppCompatActivity {
         localblumessage = findViewById(R.id.localblumessage);
         bluemessage = findViewById(R.id.bluemessage);
 //        scanfinnish = findViewById(R.id.scanfinnish);
-        listview = findViewById(R.id.listview);
+        lvDevice = findViewById(R.id.lvDevice);
 
         listMap = new ArrayList<>();
         deviceList = new ArrayList<>();
 
         //列表点击“已配对”
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvDevice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 Map<String, String> map;
                 map = listMap.get(position);
-                if (map.get("statue").equals("已配对")) {
+                if (map.get("statue").equals("已配对")) { //如果状态是“已配对”
                     alertDialog = DialogUtils.dialogloading(BltActivity.this, "正在连接", false, false);
                     ThreadPoolProxyFactory.getNormalThreadPoolProxy().execute(new Runnable() {
                         @Override
@@ -183,6 +185,7 @@ public class BltActivity extends AppCompatActivity {
     private void scanBlt() {
         //请求用户选择是否使该蓝牙能被扫描
         Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+        intent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 30); //30s扫描发现时间
         startActivity(intent);
 
         listMap.clear();
@@ -272,7 +275,7 @@ public class BltActivity extends AppCompatActivity {
                 }
                 listMap.add(map);
                 simpleAdapter = new SimpleAdapter(BltActivity.this, listMap, R.layout.blt_devices, new String[]{"deviceName", "statue"}, new int[]{R.id.devicename, R.id.statue});
-                listview.setAdapter(simpleAdapter);
+                lvDevice.setAdapter(simpleAdapter);
                 break;
             case 2:
                 DialogUtils.dimissloading(alertDialog);
