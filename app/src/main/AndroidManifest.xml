@@ -47,6 +47,7 @@
         <activity android:name=".alarm.AlarmMainActivity"></activity>
         <activity android:name=".alarm.RemindActivity"></activity>
         <activity android:name=".bluetooth.BltActivity"></activity>
+        <activity android:name=".bluetooth.Tongxun"></activity>
 
         <service android:name=".FWService"/>
         <service

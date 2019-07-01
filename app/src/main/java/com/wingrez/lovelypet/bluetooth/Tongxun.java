@@ -31,7 +31,7 @@ public class Tongxun extends AppCompatActivity {
     TextView text;
 
     public void initView() {
-        contentLy = findViewById(R.id.cancel_action);
+        contentLy = findViewById(R.id.content_ly);
         goEditText = findViewById(R.id.go_edit_text);
         goFileBtn = findViewById(R.id.go_file_btn);
         text = findViewById(R.id.text);

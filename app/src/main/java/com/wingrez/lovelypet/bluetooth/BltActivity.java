@@ -89,6 +89,13 @@ public class BltActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(blueToothReceiver);
+        EventBus.getDefault().unregister(this);
+    }
+
     /**
      * 初始化View和点击方法
      */
@@ -115,7 +122,7 @@ public class BltActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             Log.e("tag", "正在连接");
-//                            connect(deviceList.get(position));
+                            connect(deviceList.get(position));
                         }
                     });
                 } else {
@@ -196,6 +203,7 @@ public class BltActivity extends AppCompatActivity {
                 new AcpListener() {
                     @Override
                     public void onGranted() {
+                        Log.d("来到这里了", "来到这里了......");
                         if (bltAdapter.isDiscovering()) {
                             bltAdapter.cancelDiscovery();
                         }
@@ -261,7 +269,7 @@ public class BltActivity extends AppCompatActivity {
                     map.put("statue", "已配对");
                 }
                 list.add(map);
-                simpleAdapter = new SimpleAdapter(this, list, R.layout.blt_devices, new String[]{"deviceName", "statue"}, new int[]{R.id.devicename, R.id.statue});
+                simpleAdapter = new SimpleAdapter(BltActivity.this, list, R.layout.blt_devices, new String[]{"deviceName", "statue"}, new int[]{R.id.devicename, R.id.statue});
                 listview.setAdapter(simpleAdapter);
                 break;
             case 2:
@@ -273,10 +281,10 @@ public class BltActivity extends AppCompatActivity {
             case 11:
             case 12:
                 Log.e("###","get12");
-//                alertDialog.dismiss();
-//                intent = new Intent(BltActivity.this, Tongxun.class);
-//                intent.putExtra("devicename", bluRxBean.getBluetoothDevice().getName());
-//                startActivity(intent);
+                alertDialog.dismiss();
+                intent = new Intent(BltActivity.this, Tongxun.class);
+                intent.putExtra("devicename", bluRxBean.getBluetoothDevice().getName());
+                startActivity(intent);
                 break;
             default:
                 break;

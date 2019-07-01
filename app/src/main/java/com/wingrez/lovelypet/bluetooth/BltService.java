@@ -4,8 +4,11 @@ import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
+import com.orhanobut.logger.Logger;
 import com.wingrez.lovelypet.App;
 import com.wingrez.lovelypet.bean.BluRxBean;
+import com.wingrez.lovelypet.bluetooth.BltConstant;
+import com.wingrez.lovelypet.bluetooth.BltManager;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -49,15 +52,14 @@ public class BltService {
 
     /**
      * 从蓝牙适配器中创建一个蓝牙服务作为服务端，在获得蓝牙适配器后创建服务器端
-     * 服务器端的bltsocket需要传入uuid和一个独立存在的字符串，以便验证，通常使用包名的形式
      */
+    //服务器端的bltsocket需要传入uuid和一个独立存在的字符串，以便验证，通常使用包名的形式
     private void createBltService() {
         try {
             if (BltManager.getInstance().getmBluetoothAdapter() != null) {
-                bluetoothServerSocket = BltManager.getInstance().getmBluetoothAdapter().listenUsingRfcommWithServiceRecord("hlq.com.wingrez.lovelypet.bluetooth", BltConstant.SPP_UUID);
+                bluetoothServerSocket = BltManager.getInstance().getmBluetoothAdapter().listenUsingRfcommWithServiceRecord("hlq.bluetooth", BltConstant.SPP_UUID);
             }
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -68,8 +70,8 @@ public class BltService {
 
         while (true) {
             try {
-                if (getBluetoothServerSocket() == null) {
-                    Log.e("###", "getBluetoothServerSocket为空");
+                if (getBluetoothServerSocket() == null){
+                    Log.e("在这里获取的为空","在这里获取的为空");
                 }
                 bluetoothSocket = getBluetoothServerSocket().accept();
                 if (bluetoothSocket != null) {
@@ -93,7 +95,6 @@ public class BltService {
         try {
             getBluetoothServerSocket().close();
         } catch (IOException e) {
-            e.printStackTrace();
             Log.e("blueTooth", "关闭服务器socket失败");
         }
     }

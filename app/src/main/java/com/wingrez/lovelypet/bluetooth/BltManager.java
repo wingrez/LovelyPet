@@ -99,7 +99,6 @@ public class BltManager {
      * @param context
      */
     public void initBltManager(Context context) {
-        Log.e("###","init1");
         if (bluetoothManager != null) return;
         //首先获取BluetoothManager
         bluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
@@ -149,7 +148,7 @@ public class BltManager {
             // 显示所有收到的消息及其细节
             for (int i = 0; i < lstName.length; i++) {
                 String keyName = lstName[i].toString();
-                Log.e("com/wingrez/lovelypet/bluetooth", keyName + ">>>" + String.valueOf(b.get(keyName)));
+                Log.e("bluetooth", keyName + ">>>" + String.valueOf(b.get(keyName)));
             }
             BluetoothDevice device;
             // 搜索发现设备时，取得设备的信息；注意，这里有可能重复搜索同一设备
