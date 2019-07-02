@@ -7,7 +7,6 @@
     <ImageView
         android:id="@+id/imgv_fw"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/img_0" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
