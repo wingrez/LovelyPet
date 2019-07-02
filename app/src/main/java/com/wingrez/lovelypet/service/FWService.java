@@ -45,9 +45,9 @@ public class FWService extends Service {
 
     private Handler changeImageHandler;
 
-    private int screenWidth;
-    private int screenHeight;
-    private float attachLength;
+    private int screenWidth; //屏幕宽度
+    private int screenHeight; //屏幕高度
+    private float attachLength; //吸附距离
 
     @Override
     public void onCreate() {
@@ -63,7 +63,7 @@ public class FWService extends Service {
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
         screenWidth = displayMetrics.widthPixels;         // 屏幕宽度（像素）
         screenHeight = displayMetrics.heightPixels;       // 屏幕高度（像素）
-        attachLength = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, 5, getResources().getDisplayMetrics());
+        attachLength = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, 3, getResources().getDisplayMetrics());
         Log.e("screenWidth", screenWidth + "");
         Log.e("screenHeight", screenHeight + "");
 
@@ -116,13 +116,18 @@ public class FWService extends Service {
      */
     private void setViewPosition(int x, int y) {
         if (x < 0) layoutParams.x = 0;
-        else if (x > screenWidth - getViewWidth(fwView))
-            layoutParams.x = screenWidth - getViewWidth(fwView);
+        else if (x > screenWidth) layoutParams.x = screenWidth;
         else layoutParams.x = x;
 
+//        if (y < 0) layoutParams.y = 0;
+//        else if (y > screenHeight + getStatusBarHeight() - getViewHeight(fwView))
+//            layoutParams.y = screenHeight + getStatusBarHeight() - getViewHeight(fwView);
+//        else {
+//            layoutParams.y = y;
+//        }
+
         if (y < 0) layoutParams.y = 0;
-        else if (y > screenHeight - getViewHeight(fwView))
-            layoutParams.y = screenHeight - getViewHeight(fwView);
+        else if (y > screenHeight) layoutParams.y = screenHeight;
         else layoutParams.y = y;
     }
 
@@ -196,8 +201,8 @@ public class FWService extends Service {
                     float moveY = nowY - y;
                     setViewPosition(layoutParams.x + Math.round(moveX), layoutParams.y + Math.round(moveY));
                     try {
-                        if(!isFWMoving){
-                            mGifIvPhoto.setImageDrawable(new GifDrawable(getAssets(), "img_2.gif"));
+                        if (!isFWMoving) {
+                            mGifIvPhoto.setImageDrawable(new GifDrawable(getAssets(), "img_3.gif"));
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -209,20 +214,48 @@ public class FWService extends Service {
                     break;
                 case MotionEvent.ACTION_UP: //抬起动作，自动吸附屏幕边缘
                     isFWMoving = false;
-                    if (layoutParams.x < attachLength || layoutParams.x + getViewWidth(fwView) > screenWidth - attachLength) {
-                        moveX = layoutParams.x <= screenWidth / 2 ? 0 : screenWidth;
-                        setViewPosition((int) moveX, layoutParams.y);
+                    if (layoutParams.x < attachLength) { //左边
+                        try {
+                            mGifIvPhoto.setImageDrawable(new GifDrawable(getAssets(), "attach_left.gif"));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        setViewPosition(0, layoutParams.y);
                         windowManager.updateViewLayout(fwView, layoutParams);
                         break;
                     }
-                    Log.e("ly+vh", layoutParams.y + getViewHeight(fwView) + "");
-                    Log.e("stand", screenHeight - attachLength + "");
-                    if (layoutParams.y < attachLength || layoutParams.y + getViewHeight(fwView) > screenHeight - attachLength) {
-                        moveY = layoutParams.y <= screenHeight / 2 ? 0 : screenHeight;
-                        setViewPosition(layoutParams.x, (int) moveY);
+                    if (layoutParams.x + getViewWidth(fwView) > screenWidth - attachLength) { //右边
+                        try {
+                            mGifIvPhoto.setImageDrawable(new GifDrawable(getAssets(), "attach_right.gif"));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        setViewPosition(screenWidth, layoutParams.y);
                         windowManager.updateViewLayout(fwView, layoutParams);
                         break;
                     }
+
+                    if (layoutParams.y < attachLength) { //上边
+                        try {
+                            mGifIvPhoto.setImageDrawable(new GifDrawable(getAssets(), "attach_up.gif"));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        setViewPosition(layoutParams.x, 0);
+                        windowManager.updateViewLayout(fwView, layoutParams);
+                        break;
+                    }
+                    if (layoutParams.y + getViewHeight(fwView) > screenHeight - getStatusBarHeight() - attachLength) { //下边
+                        try {
+                            mGifIvPhoto.setImageDrawable(new GifDrawable(getAssets(), "attach_bottom.gif"));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        setViewPosition(layoutParams.x, screenHeight);
+                        windowManager.updateViewLayout(fwView, layoutParams);
+                        break;
+                    }
+
                     try {
                         mGifIvPhoto.setImageDrawable(new GifDrawable(getAssets(), "img_1.gif"));
                     } catch (IOException e) {
