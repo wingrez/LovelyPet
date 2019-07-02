@@ -282,8 +282,8 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
                             android:background="@drawable/eat" />
 
                         <TextView
@@ -300,8 +300,8 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
                             android:background="@drawable/clean" />
 
                         <TextView
@@ -318,8 +318,8 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
                             android:background="@drawable/game" />
 
                         <TextView
@@ -331,14 +331,16 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/btn_openFW"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
+                        android:onClick="onClick"
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
                             android:background="@drawable/outside" />
 
                         <TextView
@@ -349,18 +351,19 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/btn_closeFW"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
+                        android:onClick="onClick"
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
                             android:background="@drawable/home" />
 
                         <TextView
-
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="回家"
@@ -374,8 +377,8 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
                             android:background="@drawable/function" />
 
                         <TextView
