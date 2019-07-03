@@ -28,7 +28,6 @@
         android:id="@+id/lyFWPet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:orientation="horizontal">
 
         <pl.droidsonroids.gif.GifImageView
@@ -37,11 +36,24 @@
             android:layout_height="96dp" />
 
         <LinearLayout
+            android:id="@+id/lyFWFunction2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="vertical"
-            android:layout_gravity="center">
+            android:visibility="invisible">
 
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/function" />
+
+            <TextView
+                android:id="@+id/tvFWHome"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/home"
+                android:onClick="onClick" />
 
 
         </LinearLayout>
@@ -50,10 +62,9 @@
 
     <!--功能区-->
     <LinearLayout
-        android:id="@+id/lyFWFunction"
+        android:id="@+id/lyFWFunction1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:orientation="horizontal"
         android:visibility="invisible">
 
@@ -71,13 +82,6 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/fun" />
-
-        <TextView
-            android:id="@+id/tvFWHome"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/home"
-            android:onClick="onClick" />
 
 
     </LinearLayout>
