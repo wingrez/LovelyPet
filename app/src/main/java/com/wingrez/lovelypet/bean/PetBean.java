@@ -1,19 +1,24 @@
 package com.wingrez.lovelypet.bean;
 
 public class PetBean {
+    private int id; //宠物id
     private String name; //姓名
-    private int age; //年龄
     private int gender; //性别
+    private int age; //年龄
+    private int level; //等级
     private int kind; //种类 0->狗 1->猫
 
     private String master; //主人
 
-    private int level; //等级
-    private int experience; //经验/成长值
+    private int experience; //经验/成长值，数值
+    private int hungry; //饥饿值，数值
+    private int cleaness; //清洁值，数值
+    private int happiness; //幸福值，百分数值
 
-    private int hungry; //饥饿值
-    private int cleaness; //清洁值
-    private int happiness; //幸福值
+    private int allExperience;
+    private int allHungry;
+    private int allCleaness;
+    private int allHappiness;
 
 //    //保留的属性
 //    private String achievemrnt; //成就
@@ -26,21 +31,25 @@ public class PetBean {
     private int state; //宠物状态 0->健康 1->饥饿 2->不堪 3->生病 4->逝世
 
 
-    public PetBean(String name, int gender, int kind){
+    public PetBean(String name, int gender, int kind, int allHungry, int allCleaness, int allHappiness) {
         setName(name);
         setAge(0);
+        setLevel(0);
         setGender(gender);
         setKind(kind);
+
         setMaster("Master");
-        setLevel(0);
+
+
         setExperience(0);
-        setHungry(100);
-        setCleaness(100);
-        setHappiness(100);
+        setHungry(allHungry);
+        setCleaness(allCleaness);
+        setHappiness(allHappiness);
+
+
         setMood(0);
         setState(0);
     }
-
 
     public String getName() {
         return name;
@@ -122,6 +131,38 @@ public class PetBean {
         this.happiness = happiness;
     }
 
+    public int getAllExperience() {
+        return allExperience;
+    }
+
+    public void setAllExperience(int allExperience) {
+        this.allExperience = allExperience;
+    }
+
+    public int getAllHungry() {
+        return allHungry;
+    }
+
+    public void setAllHungry(int allHungry) {
+        this.allHungry = allHungry;
+    }
+
+    public int getAllCleaness() {
+        return allCleaness;
+    }
+
+    public void setAllCleaness(int allCleaness) {
+        this.allCleaness = allCleaness;
+    }
+
+    public int getAllHappiness() {
+        return allHappiness;
+    }
+
+    public void setAllHappiness(int allHappiness) {
+        this.allHappiness = allHappiness;
+    }
+
     public int getMood() {
         return mood;
     }
@@ -137,5 +178,50 @@ public class PetBean {
     public void setState(int state) {
         this.state = state;
     }
+
+
+    private boolean canEatFood() {
+        if (state==4 || hungry == allHungry) return false;
+        return true;
+    }
+
+    private boolean canClean(){
+        if(state==4 || cleaness==allCleaness) return false;
+        return true;
+    }
+
+    public int eat(FoodBean food) {
+        if (canEatFood()) {
+            hungry+=food.getRefresh();
+            if(hungry>=allHungry) hungry=allHungry;
+            return 201; //吃食物成功
+        }
+        return 202; //吃食物失败，
+    }
+
+    public int clean(CleanserBean cleanser){
+        if(canClean()){
+            cleaness+=cleanser.getRefresh();
+            if(cleaness>=allCleaness) cleaness=allCleaness;
+            return 301; //清洁成功
+        }
+        return 302; //清洁失败
+    }
+
+    private boolean canFun(){
+        if(state==3 || state==4) return false;
+        return true;
+    }
+
+    public int fun(GameBean game){
+        if(canFun()){
+            happiness+=game.getRefresh();
+            if(happiness>allHappiness) happiness=allHappiness;
+            return 401; //游戏成功
+        }
+        return 402; //游戏失败
+    }
+
+
 
 }
