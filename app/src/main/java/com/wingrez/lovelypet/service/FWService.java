@@ -289,7 +289,6 @@ public class FWService extends Service {
                     break;
                 case MotionEvent.ACTION_UP: //抬起动作，自动吸附屏幕边缘
                     isFWMoving = false;
-                    isFWAttach = false;
                     inRange = false;
 
                     if (Math.abs(event.getRawX() - preX) == 0 && Math.abs(event.getRawY() - preY) == 0 && !isFWAttach) {
@@ -352,6 +351,8 @@ public class FWService extends Service {
                         isFWAttach = true;
                         break;
                     }
+
+                    isFWAttach=false;
 
                     try {
                         mGifIvPhoto.setImageDrawable(new GifDrawable(getAssets(), "img_1.gif"));
