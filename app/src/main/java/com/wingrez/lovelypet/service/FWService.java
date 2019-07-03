@@ -39,6 +39,8 @@ public class FWService extends Service {
     public static boolean isFWRunning = false; //悬浮窗是否开启
     public static boolean isFWMoving = false; //悬浮窗是否正在移动
     public static boolean isFWAttach = false; //悬浮窗是否贴边
+    public static boolean isMessageShow = false;
+    public static boolean isFunctionShow = false;
 
     private WindowManager windowManager;
     private WindowManager.LayoutParams layoutParams;
@@ -210,15 +212,24 @@ public class FWService extends Service {
                     x = preX = event.getRawX();
                     y = preY = event.getRawY();
                     break;
-                case MotionEvent.ACTION_MOVE: //移动动作
-                    if (lyFWMessage.getVisibility() != View.GONE || lyFWFunction.getVisibility() != View.GONE) {
-                        lyFWMessage.setVisibility(View.GONE);
-                        lyFWFunction.setVisibility(View.GONE);
-                    }
+
+                case MotionEvent.ACTION_MOVE: //移动动作（仅点击也会调用此）
+
+
                     nowX = event.getRawX();
                     nowY = event.getRawY();
                     moveX = nowX - x;
                     moveY = nowY - y;
+
+                    if (moveX == 0 && moveY == 0) {
+                        break;
+                    }
+
+                    if (lyFWFunction.getVisibility() != View.GONE || lyFWMessage.getVisibility() != View.GONE) {
+                        lyFWFunction.setVisibility(View.GONE);
+                        lyFWMessage.setVisibility(View.GONE);
+                    }
+
                     setFWPosition(layoutParams.x + Math.round(moveX), layoutParams.y + Math.round(moveY));
                     try {
                         if (!isFWMoving) { //初始时不在移动时触发
@@ -235,20 +246,8 @@ public class FWService extends Service {
 
                     break;
                 case MotionEvent.ACTION_UP: //抬起动作，自动吸附屏幕边缘
-
                     isFWMoving = false;
-
-                    if (Math.abs(event.getRawX() - preX) == 0 && Math.abs(event.getRawY() - preY) == 0 && !isFWAttach) {
-                        if (lyFWMessage.getVisibility() == View.VISIBLE || lyFWFunction.getVisibility() == View.VISIBLE) {
-                            lyFWMessage.setVisibility(View.INVISIBLE);
-                            lyFWFunction.setVisibility(View.INVISIBLE);
-                        } else {
-                            lyFWMessage.setVisibility(View.VISIBLE);
-                            lyFWFunction.setVisibility(View.VISIBLE);
-                        }
-                        break;
-                    }
-
+                    isFWAttach = false;
 
                     if (layoutParams.x < attachLength) { //左边
                         try {
@@ -296,18 +295,28 @@ public class FWService extends Service {
                         break;
                     }
 
-
-                    if (lyFWMessage.getVisibility() == View.GONE || lyFWFunction.getVisibility() == View.GONE) {
-                        lyFWMessage.setVisibility(View.INVISIBLE);
-                        lyFWFunction.setVisibility(View.INVISIBLE);
-                    }
-
-                    isFWAttach = false;
                     try {
                         mGifIvPhoto.setImageDrawable(new GifDrawable(getAssets(), "img_1.gif"));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
+                    if (Math.abs(event.getRawX() - preX) == 0 && Math.abs(event.getRawY() - preY) == 0 && !isFWAttach) {
+                        if (isFunctionShow) {
+                            lyFWFunction.setVisibility(View.INVISIBLE);
+                            isFunctionShow = false;
+                        } else {
+                            lyFWFunction.setVisibility(View.VISIBLE);
+                            isFunctionShow = true;
+                        }
+                        break;
+                    }
+
+                    if (lyFWFunction.getVisibility() != View.INVISIBLE || lyFWFunction.getVisibility()!=View.INVISIBLE ) {
+                        lyFWFunction.setVisibility(View.INVISIBLE);
+                    }
+
+                    break;
 
                 default:
                     break;
