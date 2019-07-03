@@ -151,7 +151,7 @@ public class FWService extends Service {
         lyFWMessage = fwView.findViewById(R.id.lyFWMessage);
         lyFWFunction = fwView.findViewById(R.id.lyFWFunction);
         lyFWPet = fwView.findViewById(R.id.lyFWPet);
-        mGifIvPhoto = fwView.findViewById(R.id.gifv_fw);
+        mGifIvPhoto = fwView.findViewById(R.id.gifFWPet);
 
 
         try {
@@ -189,7 +189,7 @@ public class FWService extends Service {
                     imageIndex = 0;
                 }
                 if (fwView != null) {
-                    ((ImageView) fwView.findViewById(R.id.imgv_fw)).setImageResource(images[imageIndex]);
+//                    ((ImageView) fwView.findViewById(R.id.imgv_fw)).setImageResource(images[imageIndex]);
                 }
                 changeImageHandler.sendEmptyMessageDelayed(0, 1000);
             }
