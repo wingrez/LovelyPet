@@ -4,9 +4,8 @@ import android.app.Application;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
-import com.wingrez.lovelypet.service.NotificationCollectorMonitorService;
+import com.wingrez.lovelypet.service.NMService;
 
 public class App extends Application {
 
@@ -18,6 +17,6 @@ public class App extends Application {
         super.onCreate();
 
         context = getApplicationContext();
-        startService(new Intent(this, NotificationCollectorMonitorService.class));
+        startService(new Intent(this, NMService.class));
     }
 }

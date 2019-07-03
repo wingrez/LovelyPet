@@ -15,17 +15,25 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.wingrez.lovelypet.R;
+import com.wingrez.lovelypet.bean.NoticeBean;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.IOException;
 
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
-import static com.wingrez.lovelypet.utils.Utils.*;
+import static com.wingrez.lovelypet.utils.Utils.getStatusBarHeight;
+import static com.wingrez.lovelypet.utils.Utils.getViewHeight;
+import static com.wingrez.lovelypet.utils.Utils.getViewMeasureHeight;
+import static com.wingrez.lovelypet.utils.Utils.getViewWidth;
 
 /**
  * 悬浮窗服务实现类
@@ -46,6 +54,8 @@ public class FWService extends Service {
     private LinearLayout lyFWFunction1;
     private LinearLayout lyFWFunction2;
     private LinearLayout lyFWPet;
+
+    private TextView tvFWMessage;
     private GifImageView mGifIvPhoto;
 
     private int[] images;
@@ -63,6 +73,7 @@ public class FWService extends Service {
         super.onCreate();
 
         isFWRunning = true;
+        EventBus.getDefault().register(this);
 
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         layoutParams = new WindowManager.LayoutParams();
@@ -153,6 +164,8 @@ public class FWService extends Service {
         lyFWFunction1 = fwView.findViewById(R.id.lyFWFunction1);
         lyFWFunction2 = fwView.findViewById(R.id.lyFWFunction2);
         lyFWPet = fwView.findViewById(R.id.lyFWPet);
+
+        tvFWMessage = fwView.findViewById(R.id.tvFWMessage);
         mGifIvPhoto = fwView.findViewById(R.id.gifFWPet);
 
 
@@ -213,24 +226,24 @@ public class FWService extends Service {
         private float nowY;
         private float moveX;
         private float moveY;
-        private boolean inRange=false;
+        private boolean inRange = false;
 
         @Override
         public boolean onTouch(View view, MotionEvent event) {
+            nowX = event.getRawX();
+            nowY = event.getRawY();
 
-            nowX=event.getRawX();
-            nowY=event.getRawY();
+            float rangeX1 = layoutParams.x;
+            float rangeY1 = layoutParams.y + getViewMeasureHeight(lyFWMessage);
+            float rangeX2 = layoutParams.x + getViewWidth(lyFWPet);
+            float rangeY2 = layoutParams.y + getViewMeasureHeight(lyFWMessage) + getViewHeight(lyFWPet);
 
-            float rangeX1=layoutParams.x;
-            float rangeY1=layoutParams.y+getViewMeasureHeight(lyFWMessage);
-            float rangeX2=layoutParams.x+getViewWidth(lyFWPet);
-            float rangeY2=layoutParams.y+getViewMeasureHeight(lyFWMessage)+getViewHeight(lyFWPet);
-
-            if (!inRange && nowX>=rangeX1 && nowX<=rangeX2 && nowY>=rangeY1 && nowY<=rangeY2) {
-                inRange=true;
+            //判断点击是否发生在宠物身上
+            if (!inRange && nowX >= rangeX1 && nowX <= rangeX2 && nowY >= rangeY1 && nowY <= rangeY2) {
+                inRange = true;
             }
 
-            if(!inRange){
+            if (!inRange) {
                 return false;
             }
 
@@ -277,7 +290,7 @@ public class FWService extends Service {
                 case MotionEvent.ACTION_UP: //抬起动作，自动吸附屏幕边缘
                     isFWMoving = false;
                     isFWAttach = false;
-                    inRange=false;
+                    inRange = false;
 
                     if (layoutParams.x < attachLength) { //左边
                         try {
@@ -360,6 +373,12 @@ public class FWService extends Service {
 
             return false;
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(NoticeBean noticeBean) {
+        tvFWMessage.setText(noticeBean.toString());
+        lyFWMessage.setVisibility(View.VISIBLE);
     }
 
 

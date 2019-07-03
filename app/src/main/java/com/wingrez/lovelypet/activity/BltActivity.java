@@ -72,6 +72,7 @@ public class BltActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.blt_main);
+        //注册监听
         EventBus.getDefault().register(this);
         //注册蓝牙广播接受者
         bltReceiver = new BltReceiver();

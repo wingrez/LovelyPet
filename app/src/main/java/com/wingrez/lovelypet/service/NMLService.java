@@ -12,12 +12,15 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.wingrez.lovelypet.App;
+import com.wingrez.lovelypet.bean.NoticeBean;
+
+import org.greenrobot.eventbus.EventBus;
 
 /***
  * 监听微信消息通知服务实现类
  */
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-public class NotificationMonitor extends NotificationListenerService {
+public class NMLService extends NotificationListenerService {
 
     @Override
     public void onListenerConnected() {
@@ -32,7 +35,6 @@ public class NotificationMonitor extends NotificationListenerService {
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         //当收到一条消息时回调，sbn里面带有这条消息的具体信息
-        Log.e("NotificationMonitor", "通知栏有消息");
         Log.e("onNotificationPosted_0", sbn.getPackageName());
         if (sbn.getPackageName().equals("com.tencent.mm")) { //微信
             Bundle extras = sbn.getNotification().extras;
@@ -48,16 +50,12 @@ public class NotificationMonitor extends NotificationListenerService {
             Log.e("onNotificationPosted_5", largeIcon+"");
             Log.e("onNotificationPosted_6", pendingIntent+"");
 
+
+            NoticeBean mBean=new NoticeBean("微信",title,content);
+            EventBus.getDefault().post(mBean);
+
         }
 
-
-//        NoticesBean mBean = new NoticesBean();
-//        mBean.setLargeIcon(largeIcon);
-//        mBean.setSmallIconId(smallIconId);
-//        if (title == null || largeIcon == null) {
-//            return;
-//        }
-//        EventBus.getDefault().post(mBean);
     }
 
     /**
