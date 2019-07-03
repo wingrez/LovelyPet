@@ -1,10 +1,10 @@
 package com.wingrez.lovelypet.utils;
 
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.wingrez.lovelypet.App;
-import com.wingrez.lovelypet.activity.MainActivity;
 
 public class Utils {
     /**
@@ -14,6 +14,7 @@ public class Utils {
      */
     public static int getViewWidth(View view) {
         if (view != null) {
+            Log.e("width",view.getWidth()+"");
             return view.getWidth();
         }
         return 0;
@@ -26,7 +27,23 @@ public class Utils {
      */
     public static int getViewHeight(View view) {
         if (view != null) {
+            Log.e("height",view.getHeight()+"");
             return view.getHeight();
+        }
+        return 0;
+    }
+
+
+    public static int getDrawableWidth(Drawable drawable){
+        if(drawable!=null){
+            return drawable.getBounds().width();
+        }
+        return 0;
+    }
+
+    public static int getDrawableHeight(Drawable drawable){
+        if(drawable!=null){
+            return drawable.getBounds().height();
         }
         return 0;
     }

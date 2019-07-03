@@ -304,7 +304,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="喂食"
+                            android:text="喂养"
                             android:textAlignment="center" />
                     </LinearLayout>
 
@@ -335,7 +335,7 @@
                         <TextView
                             android:layout_width="45dp"
                             android:layout_height="45dp"
-                            android:background="@drawable/game" />
+                            android:background="@drawable/fun" />
 
                         <TextView
                             android:layout_width="match_parent"

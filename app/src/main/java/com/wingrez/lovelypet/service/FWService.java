@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.wingrez.lovelypet.R;
 
@@ -24,7 +25,11 @@ import java.io.IOException;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
-import static com.wingrez.lovelypet.utils.Utils.*;
+import static com.wingrez.lovelypet.utils.Utils.getDrawableHeight;
+import static com.wingrez.lovelypet.utils.Utils.getDrawableWidth;
+import static com.wingrez.lovelypet.utils.Utils.getStatusBarHeight;
+import static com.wingrez.lovelypet.utils.Utils.getViewHeight;
+import static com.wingrez.lovelypet.utils.Utils.getViewWidth;
 
 /**
  * 悬浮窗服务实现类
@@ -38,6 +43,9 @@ public class FWService extends Service {
     private WindowManager.LayoutParams layoutParams;
 
     private View fwView;
+    private LinearLayout lyFWMessage;
+    private LinearLayout lyFWFunction;
+    private LinearLayout lyFWPet;
     private GifImageView mGifIvPhoto;
 
     private int[] images;
@@ -76,11 +84,13 @@ public class FWService extends Service {
         //设置布局参数
         layoutParams.format = PixelFormat.RGBA_8888;
         layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-        layoutParams.gravity = Gravity.LEFT | Gravity.TOP;
-        layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT; //悬浮窗宽高自适应，尽量选择尺寸相同（150）的素材，
+        layoutParams.gravity = Gravity.TOP | Gravity.LEFT;
+        layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT; //悬浮窗宽高自适应，尽量选择尺寸相同（128）的素材，
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        layoutParams.x = screenWidth;
-        layoutParams.y = screenHeight;
+//        layoutParams.width = 128;
+//        layoutParams.height = 128;
+        layoutParams.x = screenWidth / 2;
+        layoutParams.y = screenHeight / 2;
 
 //        //图片资源
 //        images = new int[]{
@@ -114,20 +124,13 @@ public class FWService extends Service {
      * @param x
      * @param y
      */
-    private void setViewPosition(int x, int y) {
+    private void setFWPosition(int x, int y) {
         if (x < 0) layoutParams.x = 0;
-        else if (x > screenWidth) layoutParams.x = screenWidth;
+        else if (x > screenWidth-getViewWidth(fwView)) layoutParams.x = screenWidth-getViewWidth(fwView);
         else layoutParams.x = x;
 
-//        if (y < 0) layoutParams.y = 0;
-//        else if (y > screenHeight + getStatusBarHeight() - getViewHeight(fwView))
-//            layoutParams.y = screenHeight + getStatusBarHeight() - getViewHeight(fwView);
-//        else {
-//            layoutParams.y = y;
-//        }
-
         if (y < 0) layoutParams.y = 0;
-        else if (y > screenHeight) layoutParams.y = screenHeight;
+        else if (y > screenHeight  - getViewWidth(fwView)) layoutParams.y = screenHeight  - getViewWidth(fwView);
         else layoutParams.y = y;
     }
 
@@ -142,7 +145,11 @@ public class FWService extends Service {
 //        ImageView imageView = fwView.findViewById(R.id.imgv_fw);
 //        imageView.setImageResource(images[imageIndex]);
 
+//        lyFWMessage = fwView.findViewById(R.id.lyFWMessage);
+//        lyFWFunction=fwView.findViewById(R.id.lyFWFunction);
+        lyFWPet = fwView.findViewById(R.id.lyFWPet);
         mGifIvPhoto = fwView.findViewById(R.id.gifv_fw);
+
 
         try {
             mGifIvPhoto.setImageDrawable(new GifDrawable(getAssets(), "img_1.gif"));
@@ -193,13 +200,27 @@ public class FWService extends Service {
                 case MotionEvent.ACTION_DOWN: //按下动作
                     x = event.getRawX();
                     y = event.getRawY();
+//                    if (lyFWMessage.getVisibility() != View.GONE || lyFWFunction.getVisibility()!=View.GONE) {
+//                        lyFWMessage.setVisibility(View.GONE);
+//                        lyFWFunction.setVisibility(View.GONE);
+//                    }
+//                    else{
+//                        lyFWMessage.setVisibility(View.VISIBLE);
+//                        lyFWFunction.setVisibility(View.VISIBLE);
+//                    }
+
+
                     break;
                 case MotionEvent.ACTION_MOVE: //移动动作
+//                    if (lyFWMessage.getVisibility() != View.GONE || lyFWFunction.getVisibility()!=View.GONE) {
+//                        lyFWMessage.setVisibility(View.GONE);
+//                        lyFWFunction.setVisibility(View.GONE);
+//                    }
                     float nowX = event.getRawX();
                     float nowY = event.getRawY();
                     float moveX = nowX - x;
                     float moveY = nowY - y;
-                    setViewPosition(layoutParams.x + Math.round(moveX), layoutParams.y + Math.round(moveY));
+                    setFWPosition(layoutParams.x + Math.round(moveX), layoutParams.y + Math.round(moveY));
                     try {
                         if (!isFWMoving) {
                             mGifIvPhoto.setImageDrawable(new GifDrawable(getAssets(), "img_3.gif"));
@@ -220,17 +241,17 @@ public class FWService extends Service {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        setViewPosition(0, layoutParams.y);
+                        setFWPosition(0, layoutParams.y);
                         windowManager.updateViewLayout(fwView, layoutParams);
                         break;
                     }
-                    if (layoutParams.x + getViewWidth(fwView) > screenWidth - attachLength) { //右边
+                    if (layoutParams.x + getViewWidth(view) > screenWidth - attachLength) { //右边
                         try {
                             mGifIvPhoto.setImageDrawable(new GifDrawable(getAssets(), "attach_right.gif"));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        setViewPosition(screenWidth, layoutParams.y);
+                        setFWPosition(screenWidth, layoutParams.y);
                         windowManager.updateViewLayout(fwView, layoutParams);
                         break;
                     }
@@ -241,17 +262,17 @@ public class FWService extends Service {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        setViewPosition(layoutParams.x, 0);
+                        setFWPosition(layoutParams.x, 0);
                         windowManager.updateViewLayout(fwView, layoutParams);
                         break;
                     }
-                    if (layoutParams.y + getViewHeight(fwView) > screenHeight - getStatusBarHeight() - attachLength) { //下边
+                    if (layoutParams.y + getViewWidth(fwView) > screenHeight - getStatusBarHeight() - attachLength) { //下边
                         try {
                             mGifIvPhoto.setImageDrawable(new GifDrawable(getAssets(), "attach_bottom.gif"));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        setViewPosition(layoutParams.x, screenHeight);
+                        setFWPosition(layoutParams.x, screenHeight);
                         windowManager.updateViewLayout(fwView, layoutParams);
                         break;
                     }
