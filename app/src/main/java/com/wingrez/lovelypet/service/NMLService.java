@@ -51,6 +51,7 @@ public class NMLService extends NotificationListenerService {
             Log.e("onNotificationPosted_6", pendingIntent+"");
 
 
+
             NoticeBean mBean=new NoticeBean("微信",title,content);
             EventBus.getDefault().post(mBean);
 

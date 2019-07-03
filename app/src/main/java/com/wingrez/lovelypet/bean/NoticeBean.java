@@ -13,6 +13,6 @@ public class NoticeBean {
 
     @Override
     public String toString() {
-        return appName+"收到消息\n"+contact+": "+message;
+        return appName+"消息: "+"\n"+message;
     }
 }
