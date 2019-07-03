@@ -11,16 +11,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="#000000"
+        android:focusable="false"
         android:orientation="vertical"
         android:visibility="invisible">
 
         <TextView
             android:id="@+id/tvFWMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#000000"
-            android:maxWidth="100dp"
-            android:maxHeight="150dp"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
             android:text="你好" />
 
     </LinearLayout>
@@ -34,7 +33,7 @@
         android:orientation="vertical">
 
         <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/gifv_fw"
+            android:id="@+id/gifFWPet"
             android:layout_width="96dp"
             android:layout_height="96dp" />
 
@@ -47,6 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="horizontal"
+        android:focusable="false"
         android:visibility="invisible">
 
         <TextView
@@ -69,7 +69,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/home"
-            android:onClick="onClick"/>
+            android:onClick="onClick" />
 
         <TextView
             android:layout_width="30dp"
