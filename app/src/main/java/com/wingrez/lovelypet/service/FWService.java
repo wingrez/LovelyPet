@@ -357,7 +357,7 @@ public class FWService extends Service {
                 default:
                     break;
             }
-            
+
             return false;
         }
     }
