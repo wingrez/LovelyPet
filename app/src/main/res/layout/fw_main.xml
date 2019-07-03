@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="#000000"
-        android:focusable="false"
         android:orientation="vertical"
         android:visibility="invisible">
 
@@ -30,12 +29,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <pl.droidsonroids.gif.GifImageView
             android:id="@+id/gifFWPet"
             android:layout_width="96dp"
             android:layout_height="96dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -46,7 +55,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="horizontal"
-        android:focusable="false"
         android:visibility="invisible">
 
         <TextView
@@ -70,11 +78,6 @@
             android:layout_height="30dp"
             android:background="@drawable/home"
             android:onClick="onClick" />
-
-        <TextView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/function" />
 
 
     </LinearLayout>
