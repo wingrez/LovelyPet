@@ -377,9 +377,11 @@ public class FWService extends Service {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(NoticeBean noticeBean) {
-        tvFWMessage.setText(noticeBean.toString());
+        Log.e("tag", noticeBean.getContent().split(":", 2)[0]);
+        if (!noticeBean.getContent().split(":", 2)[0].endsWith(noticeBean.getTitle())) {
+            tvFWMessage.setText("<" + noticeBean.getAppName() + "消息>" + noticeBean.getTitle() + ": " + noticeBean.getContent());
+        } else tvFWMessage.setText("<" + noticeBean.getAppName() + "消息>" + noticeBean.getContent());
         lyFWMessage.setVisibility(View.VISIBLE);
     }
-
 
 }

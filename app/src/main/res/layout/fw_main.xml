@@ -18,10 +18,11 @@
             android:id="@+id/tvFWMessage"
             android:layout_width="120dp"
             android:layout_height="60dp"
-            android:textSize="10sp"
-            android:padding="2dp"
+            android:breakStrategy="simple"
+            android:ellipsize="end"
             android:maxLines="4"
-            android:ellipsize="end"/>
+            android:padding="2dp"
+            android:textSize="10sp" />
 
     </LinearLayout>
 
