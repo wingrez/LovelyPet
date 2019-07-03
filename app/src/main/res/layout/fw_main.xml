@@ -65,9 +65,11 @@
             android:background="@drawable/fun" />
 
         <TextView
+            android:id="@+id/tvFWHome"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/home" />
+            android:background="@drawable/home"
+            android:onClick="onClick"/>
 
         <TextView
             android:layout_width="30dp"

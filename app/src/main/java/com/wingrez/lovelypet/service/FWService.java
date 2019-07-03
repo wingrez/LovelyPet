@@ -25,10 +25,7 @@ import java.io.IOException;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
-import static com.wingrez.lovelypet.utils.Utils.getDrawableHeight;
-import static com.wingrez.lovelypet.utils.Utils.getDrawableWidth;
 import static com.wingrez.lovelypet.utils.Utils.getStatusBarHeight;
-import static com.wingrez.lovelypet.utils.Utils.getViewHeight;
 import static com.wingrez.lovelypet.utils.Utils.getViewWidth;
 
 /**
@@ -121,6 +118,7 @@ public class FWService extends Service {
         isFWRunning = false;
     }
 
+
     /**
      * 设置悬浮窗的位置
      *
@@ -166,6 +164,14 @@ public class FWService extends Service {
 
 //        changeImageHandler.sendEmptyMessageDelayed(0, 1000);
     }
+
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.tvFWHome:
+                stopSelf(); // 先stopSelf，确保killProcess后service不会重启
+        }
+    }
+
 
     /**
      * 切换图片的回调方法
