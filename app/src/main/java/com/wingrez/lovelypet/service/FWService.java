@@ -359,7 +359,7 @@ public class FWService extends Service {
                         e.printStackTrace();
                     }
 
-                    
+
                     if (lyFWFunction1.getVisibility() != View.INVISIBLE || lyFWFunction2.getVisibility() != View.INVISIBLE || lyFWMessage.getVisibility() != View.INVISIBLE) {
                         lyFWFunction1.setVisibility(View.INVISIBLE);
                         lyFWFunction2.setVisibility(View.INVISIBLE);
@@ -378,6 +378,7 @@ public class FWService extends Service {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(NoticeBean noticeBean) {
+        if(isFWAttach) return;
         Log.e("tag", noticeBean.getContent().split(":", 2)[0]);
         if (!noticeBean.getContent().split(":", 2)[0].endsWith(noticeBean.getTitle())) {
             tvFWMessage.setText("<" + noticeBean.getAppName() + "消息>" + noticeBean.getTitle() + ": " + noticeBean.getContent());
