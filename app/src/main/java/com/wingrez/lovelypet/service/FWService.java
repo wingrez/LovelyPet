@@ -25,9 +25,7 @@ import java.io.IOException;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
-import static com.wingrez.lovelypet.utils.Utils.getStatusBarHeight;
-import static com.wingrez.lovelypet.utils.Utils.getViewHeight;
-import static com.wingrez.lovelypet.utils.Utils.getViewWidth;
+import static com.wingrez.lovelypet.utils.Utils.*;
 
 /**
  * 悬浮窗服务实现类
@@ -169,8 +167,8 @@ public class FWService extends Service {
 //        changeImageHandler.sendEmptyMessageDelayed(0, 1000);
     }
 
-    public void onClick(View view){
-        switch (view.getId()){
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.tvFWHome:
                 stopSelf(); // 先stopSelf，确保killProcess后service不会重启
         }
@@ -202,6 +200,7 @@ public class FWService extends Service {
         }
     };
 
+
     /**
      * 悬浮窗移动事件
      */
@@ -214,9 +213,27 @@ public class FWService extends Service {
         private float nowY;
         private float moveX;
         private float moveY;
+        private boolean inRange=false;
 
         @Override
         public boolean onTouch(View view, MotionEvent event) {
+
+            nowX=event.getRawX();
+            nowY=event.getRawY();
+
+            float rangeX1=layoutParams.x;
+            float rangeY1=layoutParams.y+getViewMeasureHeight(lyFWMessage);
+            float rangeX2=layoutParams.x+getViewWidth(lyFWPet);
+            float rangeY2=layoutParams.y+getViewMeasureHeight(lyFWMessage)+getViewHeight(lyFWPet);
+
+            if (!inRange && nowX>=rangeX1 && nowX<=rangeX2 && nowY>=rangeY1 && nowY<=rangeY2) {
+                inRange=true;
+            }
+
+            if(!inRange){
+                return false;
+            }
+
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN: //按下动作
                     x = preX = event.getRawX();
@@ -233,12 +250,15 @@ public class FWService extends Service {
                     }
 
                     if (lyFWFunction1.getVisibility() != View.GONE || lyFWFunction2.getVisibility() != View.GONE || lyFWMessage.getVisibility() != View.GONE) {
+                        x = layoutParams.x;
+                        y = layoutParams.y + getViewHeight(lyFWMessage);
                         lyFWFunction1.setVisibility(View.GONE);
                         lyFWFunction2.setVisibility(View.GONE);
                         lyFWMessage.setVisibility(View.GONE);
+                        setFWPosition((int) x, (int) y);
+                        windowManager.updateViewLayout(view, layoutParams);
                     }
 
-                    setFWPosition(layoutParams.x + Math.round(moveX), layoutParams.y + Math.round(moveY));
                     try {
                         if (!isFWMoving) { //初始时不在移动时触发
                             mGifIvPhoto.setImageDrawable(new GifDrawable(getAssets(), "img_3.gif"));
@@ -246,6 +266,7 @@ public class FWService extends Service {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    setFWPosition(layoutParams.x + Math.round(moveX), layoutParams.y + Math.round(moveY));
                     windowManager.updateViewLayout(view, layoutParams);
 
                     isFWMoving = true;
@@ -256,6 +277,7 @@ public class FWService extends Service {
                 case MotionEvent.ACTION_UP: //抬起动作，自动吸附屏幕边缘
                     isFWMoving = false;
                     isFWAttach = false;
+                    inRange=false;
 
                     if (layoutParams.x < attachLength) { //左边
                         try {
@@ -310,10 +332,6 @@ public class FWService extends Service {
                     }
 
                     if (Math.abs(event.getRawX() - preX) == 0 && Math.abs(event.getRawY() - preY) == 0 && !isFWAttach) {
-                        x=layoutParams.x;
-                        y=layoutParams.y;
-                        Log.e("x=",x+"");
-                        Log.e("y=",y+"");
                         if (isFunctionShow) {
                             lyFWFunction1.setVisibility(View.INVISIBLE);
                             lyFWFunction2.setVisibility(View.INVISIBLE);
@@ -325,11 +343,10 @@ public class FWService extends Service {
                             lyFWMessage.setVisibility(View.VISIBLE);
                             isFunctionShow = true;
                         }
-
                         break;
                     }
 
-                    if (lyFWFunction1.getVisibility() != View.INVISIBLE || lyFWFunction2.getVisibility()!=View.INVISIBLE  || lyFWMessage.getVisibility()!=View.INVISIBLE) {
+                    if (lyFWFunction1.getVisibility() != View.INVISIBLE || lyFWFunction2.getVisibility() != View.INVISIBLE || lyFWMessage.getVisibility() != View.INVISIBLE) {
                         lyFWFunction1.setVisibility(View.INVISIBLE);
                         lyFWFunction2.setVisibility(View.INVISIBLE);
                         lyFWMessage.setVisibility(View.INVISIBLE);
@@ -340,6 +357,9 @@ public class FWService extends Service {
                 default:
                     break;
             }
+
+            Log.e("inRange2",inRange+"");
+//            inRange=false;
             return false;
         }
     }

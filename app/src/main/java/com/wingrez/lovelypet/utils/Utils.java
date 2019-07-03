@@ -31,6 +31,20 @@ public class Utils {
         return 0;
     }
 
+    public static int getViewMeasureWidth(View view){
+        if (view != null) {
+            return view.getMeasuredWidth();
+        }
+        return 0;
+    }
+
+    public static int getViewMeasureHeight(View view){
+        if (view != null) {
+            return view.getMeasuredHeight();
+        }
+        return 0;
+    }
+
 
     public static int getDrawableWidth(Drawable drawable){
         if(drawable!=null){
@@ -53,5 +67,16 @@ public class Utils {
         }
         return 0;
     }
+
+    public static float getViewX(View view){
+        return view.getX();
+    }
+
+    public static float getViewY(View view){
+        return view.getY();
+    }
+
+
+
 
 }
