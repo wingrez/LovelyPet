@@ -4,24 +4,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--&lt;!&ndash;消息区&ndash;&gt;-->
-    <!--<LinearLayout-->
-        <!--android:id="@+id/lyFWMessage"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:orientation="vertical">-->
+    <!--消息区-->
+    <LinearLayout
+        android:id="@+id/lyFWMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:visibility="invisible">
 
-        <!--<TextView-->
-            <!--android:id="@+id/tvFWMessage"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="#000000"-->
-            <!--android:maxWidth="100dp"-->
-            <!--android:maxHeight="150dp"-->
-            <!--android:text="你好" />-->
+        <TextView
+            android:id="@+id/tvFWMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#000000"
+            android:maxWidth="100dp"
+            android:maxHeight="150dp"
+            android:text="你好" />
 
-    <!--</LinearLayout>-->
+    </LinearLayout>
 
     <!--形象区-->
     <LinearLayout
@@ -38,41 +39,42 @@
 
     </LinearLayout>
 
-    <!--&lt;!&ndash;功能区&ndash;&gt;-->
-    <!--<LinearLayout-->
-        <!--android:id="@+id/lyFWFunction"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:orientation="horizontal">-->
+    <!--功能区-->
+    <LinearLayout
+        android:id="@+id/lyFWFunction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:visibility="invisible">
 
-        <!--<TextView-->
-            <!--android:layout_width="30dp"-->
-            <!--android:layout_height="30dp"-->
-            <!--android:background="@drawable/eat" />-->
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/eat" />
 
-        <!--<TextView-->
-            <!--android:layout_width="30dp"-->
-            <!--android:layout_height="30dp"-->
-            <!--android:background="@drawable/clean" />-->
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/clean" />
 
-        <!--<TextView-->
-            <!--android:layout_width="30dp"-->
-            <!--android:layout_height="30dp"-->
-            <!--android:background="@drawable/fun" />-->
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/fun" />
 
-        <!--<TextView-->
-            <!--android:layout_width="30dp"-->
-            <!--android:layout_height="30dp"-->
-            <!--android:background="@drawable/home" />-->
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/home" />
 
-        <!--<TextView-->
-            <!--android:layout_width="30dp"-->
-            <!--android:layout_height="30dp"-->
-            <!--android:background="@drawable/function" />-->
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/function" />
 
 
-    <!--</LinearLayout>-->
+    </LinearLayout>
 
 
 </LinearLayout>

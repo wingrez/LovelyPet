@@ -14,7 +14,6 @@ public class Utils {
      */
     public static int getViewWidth(View view) {
         if (view != null) {
-            Log.e("width",view.getWidth()+"");
             return view.getWidth();
         }
         return 0;
@@ -27,7 +26,6 @@ public class Utils {
      */
     public static int getViewHeight(View view) {
         if (view != null) {
-            Log.e("height",view.getHeight()+"");
             return view.getHeight();
         }
         return 0;

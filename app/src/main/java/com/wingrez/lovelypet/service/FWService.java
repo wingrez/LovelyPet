@@ -38,6 +38,7 @@ public class FWService extends Service {
 
     public static boolean isFWRunning = false; //悬浮窗是否开启
     public static boolean isFWMoving = false; //悬浮窗是否正在移动
+    public static boolean isFWAttach = false; //悬浮窗是否贴边
 
     private WindowManager windowManager;
     private WindowManager.LayoutParams layoutParams;
@@ -126,11 +127,13 @@ public class FWService extends Service {
      */
     private void setFWPosition(int x, int y) {
         if (x < 0) layoutParams.x = 0;
-        else if (x > screenWidth-getViewWidth(fwView)) layoutParams.x = screenWidth-getViewWidth(fwView);
+        else if (x > screenWidth - getViewWidth(fwView))
+            layoutParams.x = screenWidth - getViewWidth(fwView);
         else layoutParams.x = x;
 
         if (y < 0) layoutParams.y = 0;
-        else if (y > screenHeight  - getViewWidth(fwView)) layoutParams.y = screenHeight  - getViewWidth(fwView);
+        else if (y > screenHeight - getViewWidth(fwView))
+            layoutParams.y = screenHeight - getViewWidth(fwView);
         else layoutParams.y = y;
     }
 
@@ -141,12 +144,12 @@ public class FWService extends Service {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         fwView = layoutInflater.inflate(R.layout.fw_main, null);
         fwView.setOnTouchListener(new FloatingOnTouchListener());
-//
+
 //        ImageView imageView = fwView.findViewById(R.id.imgv_fw);
 //        imageView.setImageResource(images[imageIndex]);
 
-//        lyFWMessage = fwView.findViewById(R.id.lyFWMessage);
-//        lyFWFunction=fwView.findViewById(R.id.lyFWFunction);
+        lyFWMessage = fwView.findViewById(R.id.lyFWMessage);
+        lyFWFunction = fwView.findViewById(R.id.lyFWFunction);
         lyFWPet = fwView.findViewById(R.id.lyFWPet);
         mGifIvPhoto = fwView.findViewById(R.id.gifv_fw);
 
@@ -191,50 +194,62 @@ public class FWService extends Service {
      * 悬浮窗移动事件
      */
     private class FloatingOnTouchListener implements View.OnTouchListener {
+        private float preX;
+        private float preY;
         private float x; //点击屏幕的x坐标，相对屏幕坐标系 注意是手指点击位置的坐标
         private float y; //点击屏幕的x坐标，相对屏幕坐标系
+        private float nowX;
+        private float nowY;
+        private float moveX;
+        private float moveY;
 
         @Override
         public boolean onTouch(View view, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN: //按下动作
-                    x = event.getRawX();
-                    y = event.getRawY();
-//                    if (lyFWMessage.getVisibility() != View.GONE || lyFWFunction.getVisibility()!=View.GONE) {
-//                        lyFWMessage.setVisibility(View.GONE);
-//                        lyFWFunction.setVisibility(View.GONE);
-//                    }
-//                    else{
-//                        lyFWMessage.setVisibility(View.VISIBLE);
-//                        lyFWFunction.setVisibility(View.VISIBLE);
-//                    }
-
-
+                    x = preX = event.getRawX();
+                    y = preY = event.getRawY();
                     break;
                 case MotionEvent.ACTION_MOVE: //移动动作
-//                    if (lyFWMessage.getVisibility() != View.GONE || lyFWFunction.getVisibility()!=View.GONE) {
-//                        lyFWMessage.setVisibility(View.GONE);
-//                        lyFWFunction.setVisibility(View.GONE);
-//                    }
-                    float nowX = event.getRawX();
-                    float nowY = event.getRawY();
-                    float moveX = nowX - x;
-                    float moveY = nowY - y;
+                    if (lyFWMessage.getVisibility() != View.GONE || lyFWFunction.getVisibility() != View.GONE) {
+                        lyFWMessage.setVisibility(View.GONE);
+                        lyFWFunction.setVisibility(View.GONE);
+                    }
+                    nowX = event.getRawX();
+                    nowY = event.getRawY();
+                    moveX = nowX - x;
+                    moveY = nowY - y;
                     setFWPosition(layoutParams.x + Math.round(moveX), layoutParams.y + Math.round(moveY));
                     try {
-                        if (!isFWMoving) {
+                        if (!isFWMoving) { //初始时不在移动时触发
                             mGifIvPhoto.setImageDrawable(new GifDrawable(getAssets(), "img_3.gif"));
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     windowManager.updateViewLayout(view, layoutParams);
+
                     isFWMoving = true;
                     x = nowX;
                     y = nowY;
+
                     break;
                 case MotionEvent.ACTION_UP: //抬起动作，自动吸附屏幕边缘
+
                     isFWMoving = false;
+
+                    if (Math.abs(event.getRawX() - preX) == 0 && Math.abs(event.getRawY() - preY) == 0 && !isFWAttach) {
+                        if (lyFWMessage.getVisibility() == View.VISIBLE || lyFWFunction.getVisibility() == View.VISIBLE) {
+                            lyFWMessage.setVisibility(View.INVISIBLE);
+                            lyFWFunction.setVisibility(View.INVISIBLE);
+                        } else {
+                            lyFWMessage.setVisibility(View.VISIBLE);
+                            lyFWFunction.setVisibility(View.VISIBLE);
+                        }
+                        break;
+                    }
+
+
                     if (layoutParams.x < attachLength) { //左边
                         try {
                             mGifIvPhoto.setImageDrawable(new GifDrawable(getAssets(), "attach_left.gif"));
@@ -243,6 +258,7 @@ public class FWService extends Service {
                         }
                         setFWPosition(0, layoutParams.y);
                         windowManager.updateViewLayout(fwView, layoutParams);
+                        isFWAttach = true;
                         break;
                     }
                     if (layoutParams.x + getViewWidth(view) > screenWidth - attachLength) { //右边
@@ -253,6 +269,7 @@ public class FWService extends Service {
                         }
                         setFWPosition(screenWidth, layoutParams.y);
                         windowManager.updateViewLayout(fwView, layoutParams);
+                        isFWAttach = true;
                         break;
                     }
 
@@ -264,6 +281,7 @@ public class FWService extends Service {
                         }
                         setFWPosition(layoutParams.x, 0);
                         windowManager.updateViewLayout(fwView, layoutParams);
+                        isFWAttach = true;
                         break;
                     }
                     if (layoutParams.y + getViewWidth(fwView) > screenHeight - getStatusBarHeight() - attachLength) { //下边
@@ -274,14 +292,23 @@ public class FWService extends Service {
                         }
                         setFWPosition(layoutParams.x, screenHeight);
                         windowManager.updateViewLayout(fwView, layoutParams);
+                        isFWAttach = true;
                         break;
                     }
 
+
+                    if (lyFWMessage.getVisibility() == View.GONE || lyFWFunction.getVisibility() == View.GONE) {
+                        lyFWMessage.setVisibility(View.INVISIBLE);
+                        lyFWFunction.setVisibility(View.INVISIBLE);
+                    }
+
+                    isFWAttach = false;
                     try {
                         mGifIvPhoto.setImageDrawable(new GifDrawable(getAssets(), "img_1.gif"));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
                 default:
                     break;
             }
