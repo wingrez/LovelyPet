@@ -357,9 +357,7 @@ public class FWService extends Service {
                 default:
                     break;
             }
-
-            Log.e("inRange2",inRange+"");
-//            inRange=false;
+            
             return false;
         }
     }
