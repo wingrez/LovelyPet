@@ -283,6 +283,7 @@ public class FWService extends Service {
                     windowManager.updateViewLayout(view, layoutParams);
 
                     isFWMoving = true;
+                    isFunctionShow=false;
                     x = nowX;
                     y = nowY;
 
