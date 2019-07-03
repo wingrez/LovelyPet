@@ -10,15 +10,16 @@
         android:id="@+id/lyFWMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#000000"
+        android:background="@drawable/notification"
         android:orientation="vertical"
         android:visibility="invisible">
 
         <TextView
             android:id="@+id/tvFWMessage"
             android:layout_width="120dp"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:breakStrategy="simple"
+            android:textColor="#000000"
             android:ellipsize="end"
             android:maxLines="4"
             android:padding="2dp"
