@@ -292,6 +292,21 @@ public class FWService extends Service {
                     isFWAttach = false;
                     inRange = false;
 
+                    if (Math.abs(event.getRawX() - preX) == 0 && Math.abs(event.getRawY() - preY) == 0 && !isFWAttach) {
+                        if (isFunctionShow) {
+                            lyFWFunction1.setVisibility(View.INVISIBLE);
+                            lyFWFunction2.setVisibility(View.INVISIBLE);
+                            lyFWMessage.setVisibility(View.INVISIBLE);
+                            isFunctionShow = false;
+                        } else {
+                            lyFWFunction1.setVisibility(View.VISIBLE);
+                            lyFWFunction2.setVisibility(View.VISIBLE);
+                            lyFWMessage.setVisibility(View.VISIBLE);
+                            isFunctionShow = true;
+                        }
+                        break;
+                    }
+
                     if (layoutParams.x < attachLength) { //左边
                         try {
                             mGifIvPhoto.setImageDrawable(new GifDrawable(getAssets(), "attach_left.gif"));
@@ -344,21 +359,7 @@ public class FWService extends Service {
                         e.printStackTrace();
                     }
 
-                    if (Math.abs(event.getRawX() - preX) == 0 && Math.abs(event.getRawY() - preY) == 0 && !isFWAttach) {
-                        if (isFunctionShow) {
-                            lyFWFunction1.setVisibility(View.INVISIBLE);
-                            lyFWFunction2.setVisibility(View.INVISIBLE);
-                            lyFWMessage.setVisibility(View.INVISIBLE);
-                            isFunctionShow = false;
-                        } else {
-                            lyFWFunction1.setVisibility(View.VISIBLE);
-                            lyFWFunction2.setVisibility(View.VISIBLE);
-                            lyFWMessage.setVisibility(View.VISIBLE);
-                            isFunctionShow = true;
-                        }
-                        break;
-                    }
-
+                    
                     if (lyFWFunction1.getVisibility() != View.INVISIBLE || lyFWFunction2.getVisibility() != View.INVISIBLE || lyFWMessage.getVisibility() != View.INVISIBLE) {
                         lyFWFunction1.setVisibility(View.INVISIBLE);
                         lyFWFunction2.setVisibility(View.INVISIBLE);
