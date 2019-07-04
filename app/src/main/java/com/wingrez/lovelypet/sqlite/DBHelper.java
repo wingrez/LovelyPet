@@ -9,9 +9,9 @@ public class DBHelper extends SQLiteOpenHelper {
     // 数据库名
     public static final String DB_NAME = "lovelypet.db";
     // 数据库表名
-    public static final String TABLE_NAME = "user";
+    public static final String TABLE_NAME = "pet";
     // 数据库版本号
-    public static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 2;
 
     public static final String ID = "id";
     public static final String PETNAME = "petname";
@@ -35,22 +35,27 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // 建表
-        String sql = "CREATE TABLE " + TABLE_NAME + "( " +
-                ID + " int(11) NOT NULL AUTO_INCREMENT, " +
-                PETNAME + " varchar(255) NOT NULL, " +
-                HOSTNAME + " varchar(255) NOT NULL, " +
-                AGE + " int(11) NOT NULL, " +
-                GENDER + " int(11) NOT NULL, " +
-                KIND+" int(11) NOT NULL"+
-                LEVEL + " int(11) NOT NULL, " +
-                EXPERIENCE + " int(11) NOT NULL, " +
-                HUNGRY + " int(11) NOT NULL, " +
-                CLEANESS + "int(11) NOT NULL, " +
-                HAPPINESS + " int(11) NOT NULL, " +
-                MOOD + " int(11) NOT NULL, " +
-                STATE + " int(11) NOT NULL, " +
-                " PRIMARY KEY (\'id\')" +
-                ")";
+        String sql = "create table " + TABLE_NAME + "( " +
+                ID + " integer not null primary key autoincrement, " +
+                PETNAME + " varchar not null, " +
+                HOSTNAME + " varchar not null, " +
+                AGE + " integer not null, " +
+                GENDER + " integer not null, " +
+                KIND+" integer not null, "+
+                LEVEL + " integer not null, " +
+                EXPERIENCE + " integer not null, " +
+                HUNGRY + " integer not null, " +
+                CLEANESS + " integer not null, " +
+                HAPPINESS + " integer not null, " +
+                MOOD + " integer not null, " +
+                STATE + " integer not null )";
+
+//        String sql = "create table " +
+//                TABLE_NAME +
+//                "(_id integer primary key autoincrement, " +
+//                PETNAME + " varchar, " +
+//                AGE + " varchar"
+//                + ")";
 
         db.execSQL(sql);
     }

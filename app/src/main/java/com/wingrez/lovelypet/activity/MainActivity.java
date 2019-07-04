@@ -3,6 +3,7 @@ package com.wingrez.lovelypet.activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,18 +11,30 @@ import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.wingrez.lovelypet.R;
+import com.wingrez.lovelypet.bean.PetBean;
 import com.wingrez.lovelypet.service.FWService;
+import com.wingrez.lovelypet.sqlite.DBHelper;
+import com.wingrez.lovelypet.sqlite.DBOp;
 
 public class MainActivity extends AppCompatActivity {
+
+    private DBHelper mHelper;
+    private SQLiteDatabase mDatabase;
+    private DBOp dbop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mHelper = new DBHelper(this);
+        mDatabase = mHelper.getWritableDatabase();
+        dbop=new DBOp();
     }
 
     /**
@@ -67,6 +80,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btn_blt: //蓝牙
                 intent = new Intent(MainActivity.this, BltActivity.class);
                 startActivity(intent);
+            case R.id.btnNewPet:
+                dbop.insertData(mDatabase,new PetBean("yellowcat","win",1,1,100,200,300));
+               dbop.queryData(mDatabase,1);
+////                Log.e("str",str);
             default:
                 break;
         }
