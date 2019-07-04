@@ -13,7 +13,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DBQuery {
+public class DBOp {
     private SQLiteDatabase mDatabase;
 
     // 表名
