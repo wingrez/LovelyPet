@@ -2,13 +2,13 @@ package com.wingrez.lovelypet.bean;
 
 public class PetBean {
     private int id; //宠物id
-    private String name; //姓名
-    private int gender; //性别
+    private String petName; //姓名
+    private int gender; //性别 0公 1母
     private int age; //年龄
     private int level; //等级
     private int kind; //种类 0->狗 1->猫
 
-    private String master; //主人
+    private String hostNmae; //主人
 
     private int experience; //经验/成长值，数值
     private int hungry; //饥饿值，数值
@@ -31,15 +31,14 @@ public class PetBean {
     private int state; //宠物状态 0->健康 1->饥饿 2->不堪 3->生病 4->逝世
 
 
-    public PetBean(String name, int gender, int kind, int allHungry, int allCleaness, int allHappiness) {
-        setName(name);
+    public PetBean(String petName, String hostNmae, int gender, int kind,int allHungry, int allCleaness, int allHappiness) {
+        setPetName(petName);
         setAge(0);
         setLevel(0);
         setGender(gender);
         setKind(kind);
 
-        setMaster("Master");
-
+        setHostNmae(hostNmae);
 
         setExperience(0);
         setHungry(allHungry);
@@ -51,20 +50,20 @@ public class PetBean {
         setState(0);
     }
 
-    public String getName() {
-        return name;
+    public int getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getAge() {
-        return age;
+    public String getPetName() {
+        return petName;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setPetName(String petName) {
+        this.petName = petName;
     }
 
     public int getGender() {
@@ -75,16 +74,20 @@ public class PetBean {
         this.gender = gender;
     }
 
-    public String getMaster() {
-        return master;
+    public int getAge() {
+        return age;
     }
 
-    public void setMaster(String master) {
-        this.master = master;
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public int getLevel() {
         return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     public int getKind() {
@@ -95,8 +98,12 @@ public class PetBean {
         this.kind = kind;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public String getHostNmae() {
+        return hostNmae;
+    }
+
+    public void setHostNmae(String hostNmae) {
+        this.hostNmae = hostNmae;
     }
 
     public int getExperience() {
@@ -178,7 +185,6 @@ public class PetBean {
     public void setState(int state) {
         this.state = state;
     }
-
 
     private boolean canEatFood() {
         if (state==4 || hungry == allHungry) return false;
