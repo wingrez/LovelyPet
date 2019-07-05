@@ -106,7 +106,7 @@ public class FWService extends Service {
 
 //        //图片资源
 //        images = new int[]{
-//                R.drawable.img_1,
+//                R.drawable.pig_run,
 //        };
 
         changeImageHandler = new Handler(this.getMainLooper(), changeImageCallback);

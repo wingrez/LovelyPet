@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,21 +12,23 @@ import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wingrez.lovelypet.R;
-import com.wingrez.lovelypet.bean.PetBean;
 import com.wingrez.lovelypet.service.FWService;
 import com.wingrez.lovelypet.sqlite.DBHelper;
 import com.wingrez.lovelypet.sqlite.DBOp;
+
+import java.io.IOException;
+
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvHungry;
     private TextView tvCleaness;
     private TextView tvHappiness;
+    private GifImageView gifPetShow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         tvHungry=findViewById(R.id.tvHungry);
         tvCleaness=findViewById(R.id.tvCleaness);
         tvHappiness=findViewById(R.id.tvHappiness);
+        gifPetShow=findViewById(R.id.gifPetShow);
 
         etPetName.setFocusable(false);
         etHostName.setFocusable(false);
@@ -130,7 +135,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.btnNewPet: //新宠物
-                dbop.insertData(new PetBean("yellowcat", "win", 1, 1, 100, 100, 100));
+//                dbop.insertData(new PetBean("yellowcat", "win", 1, 1, 100, 100, 100));
+                try {
+                    gifPetShow.setImageDrawable(new GifDrawable(getAssets(),"fox_run.gif"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             default:
                 break;
