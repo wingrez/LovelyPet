@@ -12,7 +12,13 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wingrez.lovelypet.R;
@@ -21,11 +27,17 @@ import com.wingrez.lovelypet.service.FWService;
 import com.wingrez.lovelypet.sqlite.DBHelper;
 import com.wingrez.lovelypet.sqlite.DBOp;
 
+import java.nio.file.FileAlreadyExistsException;
+
 public class MainActivity extends AppCompatActivity {
 
     private DBHelper mHelper;
     private SQLiteDatabase mDatabase;
     private DBOp dbop;
+
+    private EditText etPetName;
+    private EditText etHostName;
+    private LinearLayout llMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +46,9 @@ public class MainActivity extends AppCompatActivity {
 
         mHelper = new DBHelper(this);
         mDatabase = mHelper.getWritableDatabase();
-        dbop=new DBOp();
+        dbop = new DBOp(mDatabase);
+
+        initView();
     }
 
     /**
@@ -56,6 +70,48 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    public void initView() {
+
+//        llMain.setFocusable(true);
+//        llMain
+
+        etPetName = findViewById(R.id.etPetName);
+        etHostName = findViewById(R.id.etHostName);
+        etPetName.setFocusable(false);
+        etHostName.setFocusable(false);
+        etPetName.setFocusableInTouchMode(false);
+        etHostName.setFocusableInTouchMode(false);
+
+        etPetName.setOnEditorActionListener(new onEditorActionListen());
+
+
+        etPetName.setText(dbop.query(1, "petname"));
+        etHostName.setText(dbop.query(1, "hostname"));
+//        etHostName.setOnFocusChangeListener();
+        etPetName.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.e("here","aaa");
+                v.setFocusableInTouchMode(true);
+                v.setFocusable(true);
+                return false;
+            }
+        });
+
+        etPetName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                Log.e("bbb","ccc");
+                if(!hasFocus){
+
+                    etPetName.setFocusable(false);
+                    etPetName.setFocusableInTouchMode(false);
+                }
+            }
+        });
+    }
+
 
     /**
      * 控件点击事件
@@ -80,10 +136,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btn_blt: //蓝牙
                 intent = new Intent(MainActivity.this, BltActivity.class);
                 startActivity(intent);
+                break;
             case R.id.btnNewPet:
-                dbop.insertData(mDatabase,new PetBean("yellowcat","win",1,1,100,200,300));
-               dbop.queryData(mDatabase,1);
-////                Log.e("str",str);
+                dbop.insertData( new PetBean("yellowcat", "win", 1, 1, 100, 200, 300));
+                break;
             default:
                 break;
         }
@@ -179,6 +235,21 @@ public class MainActivity extends AppCompatActivity {
                 e1.printStackTrace();
             }
             e.printStackTrace();
+            return false;
+        }
+    }
+
+    private class onEditorActionListen implements TextView.OnEditorActionListener {
+
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            switch (actionId){
+                case EditorInfo.IME_ACTION_DONE:
+                    Log.e("www","www");
+                    v.setFocusable(false);
+                    v.setFocusableInTouchMode(false);
+                    break;
+            }
             return false;
         }
     }

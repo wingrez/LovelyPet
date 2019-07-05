@@ -3,12 +3,11 @@ package com.wingrez.lovelypet.bean;
 public class PetBean {
     private int id; //宠物id
     private String petName; //姓名
+    private String hostNmae; //主人
     private int gender; //性别 0公 1母
     private int age; //年龄
     private int level; //等级
     private int kind; //种类 0->狗 1->猫
-
-    private String hostNmae; //主人
 
     private int experience; //经验/成长值，数值
     private int hungry; //饥饿值，数值
