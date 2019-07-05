@@ -51,18 +51,18 @@ public class DBOp {
     // 满足删除的值
     public void deleteData(int id) {
         int count = db.delete(DBHelper.TABLE_NAME, DBHelper.ID + " = ?", new String[]{String.valueOf(id)});
-        Toast.makeText(App.context, "删除数量：" + count, Toast.LENGTH_SHORT).show();
+        Toast.makeText(App.context, "删除成功", Toast.LENGTH_SHORT).show();
     }
 
     // 表名
     // 修改后的数据
     // 修改条件
     // 满足修改的值
-    public void updateData(SQLiteDatabase db, int id, String key, String value) {
+    public void updateData(int id, String key, String value) {
         ContentValues data = new ContentValues();
         data.put(key, value);
         int count = db.update(DBHelper.TABLE_NAME, data, DBHelper.ID + " = ?", new String[]{String.valueOf(id)});
-        Toast.makeText(App.context, "修改成功：" + count, Toast.LENGTH_SHORT).show();
+        Toast.makeText(App.context, "修改成功", Toast.LENGTH_SHORT).show();
     }
 
     // 表名

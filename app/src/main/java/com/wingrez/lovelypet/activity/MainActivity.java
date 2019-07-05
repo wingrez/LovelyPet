@@ -27,8 +27,6 @@ import com.wingrez.lovelypet.service.FWService;
 import com.wingrez.lovelypet.sqlite.DBHelper;
 import com.wingrez.lovelypet.sqlite.DBOp;
 
-import java.nio.file.FileAlreadyExistsException;
-
 public class MainActivity extends AppCompatActivity {
 
     private DBHelper mHelper;
@@ -37,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText etPetName;
     private EditText etHostName;
-    private LinearLayout llMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,44 +69,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void initView() {
-
-//        llMain.setFocusable(true);
-//        llMain
-
         etPetName = findViewById(R.id.etPetName);
         etHostName = findViewById(R.id.etHostName);
+
         etPetName.setFocusable(false);
         etHostName.setFocusable(false);
+
         etPetName.setFocusableInTouchMode(false);
         etHostName.setFocusableInTouchMode(false);
 
         etPetName.setOnEditorActionListener(new onEditorActionListen());
+        etHostName.setOnEditorActionListener(new onEditorActionListen());
 
+        etPetName.setOnTouchListener(new onTouchListener());
+        etHostName.setOnTouchListener(new onTouchListener());
 
-        etPetName.setText(dbop.query(1, "petname"));
-        etHostName.setText(dbop.query(1, "hostname"));
-//        etHostName.setOnFocusChangeListener();
-        etPetName.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Log.e("here","aaa");
-                v.setFocusableInTouchMode(true);
-                v.setFocusable(true);
-                return false;
-            }
-        });
+        etPetName.setText(dbop.query(1, DBHelper.PETNAME));
+        etHostName.setText(dbop.query(1, DBHelper.HOSTNAME));
 
-        etPetName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                Log.e("bbb","ccc");
-                if(!hasFocus){
-
-                    etPetName.setFocusable(false);
-                    etPetName.setFocusableInTouchMode(false);
-                }
-            }
-        });
     }
 
 
@@ -138,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.btnNewPet:
-                dbop.insertData( new PetBean("yellowcat", "win", 1, 1, 100, 200, 300));
+                dbop.insertData(new PetBean("yellowcat", "win", 1, 1, 100, 200, 300));
                 break;
             default:
                 break;
@@ -239,15 +216,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private class onTouchListener implements View.OnTouchListener {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            v.setFocusableInTouchMode(true);
+            v.setFocusable(true);
+            return false;
+        }
+    }
+
     private class onEditorActionListen implements TextView.OnEditorActionListener {
 
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-            switch (actionId){
+            switch (actionId) {
                 case EditorInfo.IME_ACTION_DONE:
-                    Log.e("www","www");
                     v.setFocusable(false);
                     v.setFocusableInTouchMode(false);
+                    if(v.getId()==R.id.etPetName)
+                        dbop.updateData(1,DBHelper.PETNAME,v.getText().toString());
+                    else if(v.getId()==R.id.etHostName)
+                        dbop.updateData(1,DBHelper.HOSTNAME,v.getText().toString());
                     break;
             }
             return false;

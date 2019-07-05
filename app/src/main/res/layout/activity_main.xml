@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/llMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -69,9 +68,9 @@
                             android:layout_marginLeft="10dp"
                             android:background="@null"
                             android:imeOptions="actionDone"
-                            android:singleLine="true"
                             android:inputType="text"
                             android:onClick="onClick"
+                            android:singleLine="true"
                             android:text="小猪猪"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -94,7 +93,9 @@
                             android:layout_marginLeft="10dp"
                             android:background="@null"
                             android:imeOptions="actionDone"
+                            android:inputType="text"
                             android:onClick="onClick"
+                            android:singleLine="true"
                             android:text="Wingrez"
 
                             android:textSize="14sp" />
