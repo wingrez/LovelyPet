@@ -36,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
     private EditText etPetName;
     private EditText etHostName;
 
+    private TextView tvExperience;
+    private TextView tvHungry;
+    private TextView tvCleaness;
+    private TextView tvHappiness;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +76,10 @@ public class MainActivity extends AppCompatActivity {
     public void initView() {
         etPetName = findViewById(R.id.etPetName);
         etHostName = findViewById(R.id.etHostName);
+        tvExperience=findViewById(R.id.tvExperience);
+        tvHungry=findViewById(R.id.tvHungry);
+        tvCleaness=findViewById(R.id.tvCleaness);
+        tvHappiness=findViewById(R.id.tvHappiness);
 
         etPetName.setFocusable(false);
         etHostName.setFocusable(false);
@@ -86,6 +95,12 @@ public class MainActivity extends AppCompatActivity {
 
         etPetName.setText(dbop.query(1, DBHelper.PETNAME));
         etHostName.setText(dbop.query(1, DBHelper.HOSTNAME));
+
+        tvExperience.setText(dbop.query(1,DBHelper.EXPERIENCE)+"/100");
+        tvHungry.setText(dbop.query(1,DBHelper.HUNGRY)+"/100");
+        tvCleaness.setText(dbop.query(1,DBHelper.CLEANESS)+"/100");
+        tvHappiness.setText(dbop.query(1,DBHelper.HAPPINESS)+"/100");
+
 
     }
 
@@ -114,8 +129,8 @@ public class MainActivity extends AppCompatActivity {
                 intent = new Intent(MainActivity.this, BltActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.btnNewPet:
-                dbop.insertData(new PetBean("yellowcat", "win", 1, 1, 100, 200, 300));
+            case R.id.btnNewPet: //新宠物
+                dbop.insertData(new PetBean("yellowcat", "win", 1, 1, 100, 100, 100));
                 break;
             default:
                 break;

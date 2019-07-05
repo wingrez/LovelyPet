@@ -9,9 +9,7 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.wingrez.lovelypet.App;
 import com.wingrez.lovelypet.bean.NoticeBean;
 
 import org.greenrobot.eventbus.EventBus;

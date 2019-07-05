@@ -3,15 +3,10 @@ package com.wingrez.lovelypet.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.strictmode.SqliteObjectLeakedViolation;
 import android.util.Log;
-import android.view.inputmethod.InputBinding;
-import android.widget.Toast;
 
-import com.wingrez.lovelypet.App;
 import com.wingrez.lovelypet.bean.PetBean;
 
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +38,6 @@ public class DBOp {
         data.put("state", petBean.getState());
 
         db.insert(DBHelper.TABLE_NAME, null, data);
-        Toast.makeText(App.context, "插入成功", Toast.LENGTH_SHORT).show();
     }
 
     // 表名
@@ -51,7 +45,6 @@ public class DBOp {
     // 满足删除的值
     public void deleteData(int id) {
         int count = db.delete(DBHelper.TABLE_NAME, DBHelper.ID + " = ?", new String[]{String.valueOf(id)});
-        Toast.makeText(App.context, "删除成功", Toast.LENGTH_SHORT).show();
     }
 
     // 表名
@@ -62,7 +55,6 @@ public class DBOp {
         ContentValues data = new ContentValues();
         data.put(key, value);
         int count = db.update(DBHelper.TABLE_NAME, data, DBHelper.ID + " = ?", new String[]{String.valueOf(id)});
-        Toast.makeText(App.context, "修改成功", Toast.LENGTH_SHORT).show();
     }
 
     // 表名

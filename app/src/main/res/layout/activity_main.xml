@@ -201,10 +201,11 @@
                         android:progress="10" />
 
                     <TextView
+                        android:id="@+id/tvExperience"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="000000/999999" />
+                        android:text="0/9" />
 
                 </LinearLayout>
 
@@ -228,10 +229,11 @@
                         android:progress="10" />
 
                     <TextView
+                        android:id="@+id/tvHungry"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="000000/999999" />
+                        android:text="0/9" />
 
                 </LinearLayout>
 
@@ -255,10 +257,11 @@
                         android:progress="10" />
 
                     <TextView
+                        android:id="@+id/tvCleaness"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="000000/999999" />
+                        android:text="0/9" />
 
                 </LinearLayout>
 
@@ -282,10 +285,11 @@
                         android:progress="10" />
 
                     <TextView
+                        android:id="@+id/tvHappiness"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="000000/999999" />
+                        android:text="0/9" />
 
                 </LinearLayout>
 
