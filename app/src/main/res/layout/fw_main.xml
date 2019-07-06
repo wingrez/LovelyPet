@@ -23,7 +23,8 @@
             android:ellipsize="end"
             android:maxLines="4"
             android:padding="2dp"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            android:text="来找我玩吗？"/>
 
     </LinearLayout>
 
