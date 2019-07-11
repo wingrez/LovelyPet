@@ -1,4 +1,4 @@
-package com.wingrez.lovelypet.sqlite;
+package com.wingrez.lovelypet.helper;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

@@ -1,4 +1,4 @@
-package com.wingrez.lovelypet.sqlite;
+package com.wingrez.lovelypet.manager;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -6,15 +6,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.wingrez.lovelypet.bean.PetBean;
+import com.wingrez.lovelypet.helper.DBHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DBOp {
+public class DBManager {
 
     private SQLiteDatabase db;
 
-    public DBOp(SQLiteDatabase db){
+    public DBManager(SQLiteDatabase db){
         this.db=db;
     }
 

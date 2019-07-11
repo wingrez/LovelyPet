@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,8 +21,8 @@ import android.widget.Toast;
 
 import com.wingrez.lovelypet.R;
 import com.wingrez.lovelypet.service.FWService;
-import com.wingrez.lovelypet.sqlite.DBHelper;
-import com.wingrez.lovelypet.sqlite.DBOp;
+import com.wingrez.lovelypet.helper.DBHelper;
+import com.wingrez.lovelypet.manager.DBManager;
 
 import java.io.IOException;
 
@@ -32,9 +31,9 @@ import pl.droidsonroids.gif.GifImageView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private DBHelper mHelper;
-    private SQLiteDatabase mDatabase;
-    private DBOp dbop;
+    private DBHelper dbHelper;
+    private SQLiteDatabase db;
+    private DBManager dbManager;
 
     private EditText etPetName;
     private EditText etHostName;
@@ -50,9 +49,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mHelper = new DBHelper(this);
-        mDatabase = mHelper.getWritableDatabase();
-        dbop = new DBOp(mDatabase);
+        //
+        dbHelper = new DBHelper(this);
+        db = dbHelper.getWritableDatabase();
+        dbManager = new DBManager(db);
 
         initView();
     }
@@ -98,15 +98,13 @@ public class MainActivity extends AppCompatActivity {
         etPetName.setOnTouchListener(new onTouchListener());
         etHostName.setOnTouchListener(new onTouchListener());
 
-        etPetName.setText(dbop.query(1, DBHelper.PETNAME));
-        etHostName.setText(dbop.query(1, DBHelper.HOSTNAME));
-
-        tvExperience.setText(dbop.query(1,DBHelper.EXPERIENCE)+"/100");
-        tvHungry.setText(dbop.query(1,DBHelper.HUNGRY)+"/100");
-        tvCleaness.setText(dbop.query(1,DBHelper.CLEANESS)+"/100");
-        tvHappiness.setText(dbop.query(1,DBHelper.HAPPINESS)+"/100");
-
-
+        //查询数据库
+        etPetName.setText(dbManager.query(1, DBHelper.PETNAME));
+        etHostName.setText(dbManager.query(1, DBHelper.HOSTNAME));
+        tvExperience.setText(dbManager.query(1,DBHelper.EXPERIENCE)+"/100");
+        tvHungry.setText(dbManager.query(1,DBHelper.HUNGRY)+"/100");
+        tvCleaness.setText(dbManager.query(1,DBHelper.CLEANESS)+"/100");
+        tvHappiness.setText(dbManager.query(1,DBHelper.HAPPINESS)+"/100");
     }
 
 
@@ -135,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.btnNewPet: //新宠物
-//                dbop.insertData(new PetBean("yellowcat", "win", 1, 1, 100, 100, 100));
+//                dbManager.insertData(new PetBean("yellowcat", "win", 1, 1, 100, 100, 100));
                 try {
                     gifPetShow.setImageDrawable(new GifDrawable(getAssets(),"fox_run.gif"));
                 } catch (IOException e) {
@@ -259,9 +257,9 @@ public class MainActivity extends AppCompatActivity {
                     v.setFocusable(false);
                     v.setFocusableInTouchMode(false);
                     if(v.getId()==R.id.etPetName)
-                        dbop.updateData(1,DBHelper.PETNAME,v.getText().toString());
+                        dbManager.updateData(1,DBHelper.PETNAME,v.getText().toString());
                     else if(v.getId()==R.id.etHostName)
-                        dbop.updateData(1,DBHelper.HOSTNAME,v.getText().toString());
+                        dbManager.updateData(1,DBHelper.HOSTNAME,v.getText().toString());
                     break;
             }
             return false;
