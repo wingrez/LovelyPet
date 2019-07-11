@@ -72,7 +72,7 @@
                             android:inputType="text"
                             android:onClick="onClick"
                             android:singleLine="true"
-                            android:text="小猪猪"
+                            android:text=""
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -97,7 +97,7 @@
                             android:inputType="text"
                             android:onClick="onClick"
                             android:singleLine="true"
-                            android:text="Wingrez"
+                            android:text=""
 
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -117,6 +117,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
+                            android:singleLine="true"
                             android:text="公" />
                     </LinearLayout>
 
@@ -135,7 +136,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:text="3" />
+                            android:singleLine="true"
+                            android:text="0" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -153,7 +155,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:text="3" />
+                            android:singleLine="true"
+                            android:text="0" />
                     </LinearLayout>
 
 
@@ -206,6 +209,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:singleLine="true"
                         android:text="0/9" />
 
                 </LinearLayout>
@@ -234,6 +238,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:singleLine="true"
                         android:text="0/9" />
 
                 </LinearLayout>
@@ -262,6 +267,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:singleLine="true"
                         android:text="0/9" />
 
                 </LinearLayout>
@@ -290,6 +296,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:singleLine="true"
                         android:text="0/9" />
 
                 </LinearLayout>
