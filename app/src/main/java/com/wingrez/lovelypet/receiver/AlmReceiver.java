@@ -18,8 +18,7 @@ public class AlmReceiver extends BroadcastReceiver {
         String msg = intent.getStringExtra("msg");
         long intervalMillis = intent.getLongExtra("intervalMillis", 0);
         if (intervalMillis != 0) {
-            AlmManager.setAlarmTime(context, System.currentTimeMillis() + intervalMillis,
-                    intent);
+            AlmManager.setAlarmTime(context, System.currentTimeMillis() + intervalMillis, intent);
         }
         int flag = intent.getIntExtra("soundOrVibrator", 0);
         Intent clockIntent = new Intent(context, RemindActivity.class);

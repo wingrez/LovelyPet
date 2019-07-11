@@ -2,13 +2,11 @@ package com.wingrez.lovelypet.receiver;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.BroadcastReceiver;
 
 import com.wingrez.lovelypet.service.FWService;
 
-/**
- * 广播接收类
- */
-public class BroadcastReceiver extends android.content.BroadcastReceiver {
+public class RebootReceiver extends BroadcastReceiver {
     private static final String ACTION_BOOT = "android.intent.action.BOOT_COMPLETED";
 
     @Override
