@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wingrez.lovelypet.R;
+import com.wingrez.lovelypet.bean.PetBean;
 import com.wingrez.lovelypet.service.FWService;
 import com.wingrez.lovelypet.helper.DBHelper;
 import com.wingrez.lovelypet.manager.DBManager;
@@ -133,12 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.btnNewPet: //新宠物
-//                dbManager.insertData(new PetBean("yellowcat", "win", 1, 1, 100, 100, 100));
-                try {
-                    gifPetShow.setImageDrawable(new GifDrawable(getAssets(),"fox_run.gif"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                dbManager.insertData(new PetBean("猪猪", "Wingrez", 1, 1, 100, 100, 100));
                 break;
             default:
                 break;

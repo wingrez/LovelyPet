@@ -11,7 +11,7 @@ public class DBHelper extends SQLiteOpenHelper {
     // 数据库表名
     public static final String TABLE_NAME = "pet";
     // 数据库版本号
-    public static final int DB_VERSION = 2;
+    public static final int DB_VERSION = 3;
 
     public static final String ID = "id";
     public static final String PETNAME = "petname";
