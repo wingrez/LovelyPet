@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wingrez.lovelypet.R;
+import com.wingrez.lovelypet.bean.PetBean;
 import com.wingrez.lovelypet.helper.DBHelper;
 import com.wingrez.lovelypet.manager.DBManager;
 import com.wingrez.lovelypet.service.FWService;
@@ -120,10 +121,12 @@ public class MainActivity extends AppCompatActivity {
         tvCleaness.setText(cleaness+"/100");
         tvHappiness.setText(happiness+"/100");
 
-        pbExperience.setProgress(Integer.valueOf(experience));
-        pbHungry.setProgress(Integer.valueOf(hungry));
-        pbCleaness.setProgress(Integer.valueOf(cleaness));
-        pbHappiness.setProgress(Integer.valueOf(happiness));
+        if(experience!=null && pbHungry!=null && pbCleaness!=null && pbHappiness!=null){
+            pbExperience.setProgress(Integer.valueOf(experience));
+            pbHungry.setProgress(Integer.valueOf(hungry));
+            pbCleaness.setProgress(Integer.valueOf(cleaness));
+            pbHappiness.setProgress(Integer.valueOf(happiness));
+        }
 
 
 
@@ -137,6 +140,30 @@ public class MainActivity extends AppCompatActivity {
      */
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.llEat:
+                dbManager.updateData(1,DBHelper.EXPERIENCE,pbExperience.getProgress()+1+"");
+                dbManager.updateData(1,DBHelper.HUNGRY,pbHungry.getProgress()+3+"");
+                tvExperience.setText(pbExperience.getProgress()+1+"/100");
+                tvHungry.setText(pbHungry.getProgress()+3+"/100");
+                pbExperience.setProgress(pbExperience.getProgress()+1);
+                pbHungry.setProgress(pbHungry.getProgress()+3);
+                break;
+            case R.id.llClean:
+                dbManager.updateData(1,DBHelper.EXPERIENCE,pbExperience.getProgress()+1+"");
+                dbManager.updateData(1,DBHelper.CLEANESS,pbCleaness.getProgress()+3+"");
+                tvExperience.setText(pbExperience.getProgress()+1+"/100");
+                tvCleaness.setText(pbCleaness.getProgress()+3+"/100");
+                pbExperience.setProgress(pbExperience.getProgress()+1);
+                pbCleaness.setProgress(pbCleaness.getProgress()+3);
+                break;
+            case R.id.llFun:
+                dbManager.updateData(1,DBHelper.EXPERIENCE,pbExperience.getProgress()+1+"");
+                dbManager.updateData(1,DBHelper.HAPPINESS,pbHappiness.getProgress()+3+"");
+                tvExperience.setText(pbExperience.getProgress()+1+"/100");
+                tvHappiness.setText(pbHappiness.getProgress()+3+"/100");
+                pbExperience.setProgress(pbExperience.getProgress()+1);
+                pbHappiness.setProgress(pbHappiness.getProgress()+3);
+                break;
             case R.id.btn_openFW: //开启悬浮窗
                 startFWService();
                 break;
@@ -154,9 +181,9 @@ public class MainActivity extends AppCompatActivity {
                 intent = new Intent(MainActivity.this, BltActivity.class);
                 startActivity(intent);
                 break;
-//            case R.id.btnNewPet: //新宠物
-//                dbManager.insertData(new PetBean("猪猪", "Wingrez", 1, 1, 100, 100, 100));
-//                break;
+            case R.id.btnNewPet: //新宠物
+                dbManager.insertData(new PetBean("猪猪", "Wingrez", 1, 1, 25, 25, 25));
+                break;
             default:
                 break;
         }
