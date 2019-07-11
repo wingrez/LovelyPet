@@ -16,11 +16,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wingrez.lovelypet.R;
-import com.wingrez.lovelypet.bean.PetBean;
 import com.wingrez.lovelypet.helper.DBHelper;
 import com.wingrez.lovelypet.manager.DBManager;
 import com.wingrez.lovelypet.service.FWService;
@@ -41,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvCleaness;
     private TextView tvHappiness;
     private GifImageView gifPetShow;
+
+    private ProgressBar pbExperience;
+    private ProgressBar pbHungry;
+    private ProgressBar pbCleaness;
+    private ProgressBar pbHappiness;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +89,11 @@ public class MainActivity extends AppCompatActivity {
         tvHappiness=findViewById(R.id.tvHappiness);
         gifPetShow=findViewById(R.id.gifPetShow);
 
+        pbExperience=findViewById(R.id.pbExperience);
+        pbHungry=findViewById(R.id.pbHungry);
+        pbCleaness=findViewById(R.id.pbCleaness);
+        pbHappiness=findViewById(R.id.pbHappiness);
+
         etPetName.setFocusable(false);
         etHostName.setFocusable(false);
 
@@ -97,12 +107,26 @@ public class MainActivity extends AppCompatActivity {
         etHostName.setOnTouchListener(new onTouchListener());
 
         //查询数据库
+
+        String experience=dbManager.query(1,DBHelper.EXPERIENCE);
+        String hungry=dbManager.query(1,DBHelper.HUNGRY);
+        String cleaness=dbManager.query(1,DBHelper.CLEANESS);
+        String happiness=dbManager.query(1,DBHelper.HAPPINESS);
+
         etPetName.setText(dbManager.query(1, DBHelper.PETNAME));
         etHostName.setText(dbManager.query(1, DBHelper.HOSTNAME));
-        tvExperience.setText(dbManager.query(1,DBHelper.EXPERIENCE)+"/100");
-        tvHungry.setText(dbManager.query(1,DBHelper.HUNGRY)+"/100");
-        tvCleaness.setText(dbManager.query(1,DBHelper.CLEANESS)+"/100");
-        tvHappiness.setText(dbManager.query(1,DBHelper.HAPPINESS)+"/100");
+        tvExperience.setText(experience+"/100");
+        tvHungry.setText(hungry+"/100");
+        tvCleaness.setText(cleaness+"/100");
+        tvHappiness.setText(happiness+"/100");
+
+        pbExperience.setProgress(Integer.valueOf(experience));
+        pbHungry.setProgress(Integer.valueOf(hungry));
+        pbCleaness.setProgress(Integer.valueOf(cleaness));
+        pbHappiness.setProgress(Integer.valueOf(happiness));
+
+
+
     }
 
 
@@ -130,9 +154,9 @@ public class MainActivity extends AppCompatActivity {
                 intent = new Intent(MainActivity.this, BltActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.btnNewPet: //新宠物
-                dbManager.insertData(new PetBean("猪猪", "Wingrez", 1, 1, 100, 100, 100));
-                break;
+//            case R.id.btnNewPet: //新宠物
+//                dbManager.insertData(new PetBean("猪猪", "Wingrez", 1, 1, 100, 100, 100));
+//                break;
             default:
                 break;
         }
