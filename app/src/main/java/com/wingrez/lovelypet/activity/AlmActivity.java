@@ -2,6 +2,7 @@ package com.wingrez.lovelypet.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -99,9 +100,9 @@ public class AlmActivity extends AppCompatActivity implements View.OnClickListen
         if (time != null && time.length() > 0) {
             String[] times = time.split(":");
             if (cycle == 0) {//eyeryday
-                AlmManager.setAlarm(this, 0, Integer.parseInt(times[0]), Integer.parseInt(times[1]), 0, 0, "闹钟响了", ring);
-            } else if (cycle == -1) {//once
                 AlmManager.setAlarm(this, 1, Integer.parseInt(times[0]), Integer.parseInt(times[1]), 0, 0, "闹钟响了", ring);
+            } else if (cycle == -1) {//once
+                AlmManager.setAlarm(this, 0, Integer.parseInt(times[0]), Integer.parseInt(times[1]), 0, 0, "闹钟响了", ring);
             } else {//week
                 String weeksStr = parseRepeat(cycle, 1);
                 String[] weeks = weeksStr.split(",");
@@ -123,6 +124,7 @@ public class AlmActivity extends AppCompatActivity implements View.OnClickListen
         fp.setOnSelectRemindCyclePopupListener(new SelectRemindCyclePopup.SelectRemindCyclePopupOnClickListener() {
             @Override
             public void obtainMessage(int flag, String ret) {
+                Log.e("flag",String.valueOf(flag));
                 //flag值在SelectRemindCycle中定义
                 switch (flag) {
                     case 0: // 星期一

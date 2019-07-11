@@ -21,13 +21,10 @@ import android.widget.Toast;
 
 import com.wingrez.lovelypet.R;
 import com.wingrez.lovelypet.bean.PetBean;
-import com.wingrez.lovelypet.service.FWService;
 import com.wingrez.lovelypet.helper.DBHelper;
 import com.wingrez.lovelypet.manager.DBManager;
+import com.wingrez.lovelypet.service.FWService;
 
-import java.io.IOException;
-
-import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
 public class MainActivity extends AppCompatActivity {

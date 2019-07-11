@@ -28,18 +28,13 @@ public class RemindDialog extends Dialog {
     protected Context mContext;
     private View.OnClickListener listener;
     private View customView;
-    //	@Bind(R.id.icon)
     ImageView icon;
-
 
     public RemindDialog(Context context, int style) {
         super(context, R.style.FullScreenDialog);
         mContext = context;
-        Log.e("errer","here1");
         customView = LayoutInflater.from(context).inflate(R.layout.remind_dialog, null);
-        Log.e("errer","here2");
         icon = (ImageView) customView.findViewById(R.id.icon);
-
         ll_button = (LinearLayout) customView.findViewById(R.id.ll_button);
         dialog_title = (TextView) customView.findViewById(R.id.dialog_title);
         setTitle("提示信息");
@@ -60,8 +55,6 @@ public class RemindDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(customView);
-        //ButterKnife  view绑定
-        //ButterKnife.bind(this,customView);
     }
 
     public RemindDialog setClickListener(View.OnClickListener listener) {
@@ -84,7 +77,6 @@ public class RemindDialog extends Dialog {
         dialog_title.setVisibility(View.GONE);
         icon.setVisibility(View.VISIBLE);
         icon.setBackgroundResource(iconResId);
-
         return this;
     }
 

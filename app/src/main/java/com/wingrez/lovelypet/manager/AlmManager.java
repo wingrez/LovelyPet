@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 
 import java.util.Calendar;
 
@@ -51,10 +52,18 @@ public class AlmManager {
      * @param soundOrVibrator 2表示声音和震动都执行，1表示只有铃声提醒，0表示只有震动提醒
      */
     public static void setAlarm(Context context, int flag, int hour, int minute, int id, int week, String tips, int soundOrVibrator) {
+        Log.e("bbb","setAlarm");
+        Log.e("flag",String.valueOf(flag));
+        Log.e("hour",String.valueOf(hour));
+        Log.e("minute",String.valueOf(minute));
+        Log.e("id",String.valueOf(id));
+        Log.e("week",String.valueOf(week));
+        Log.e("tips",tips);
+        Log.e("soundOrVibretor",String.valueOf(soundOrVibrator));
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Calendar calendar = Calendar.getInstance();
         long intervalMillis = 0;
-        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), hour, minute, 10);
+        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), hour, minute, 0);
         if (flag == 0) {
             intervalMillis = 0;
         } else if (flag == 1) {

@@ -5,9 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
+import android.util.Log;
 
 import com.wingrez.lovelypet.activity.RemindActivity;
 import com.wingrez.lovelypet.manager.AlmManager;
+
+import java.io.Console;
 
 public class AlmReceiver extends BroadcastReceiver {
     private MediaPlayer mediaPlayer;
@@ -15,6 +18,7 @@ public class AlmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.e("eee","here");
         String msg = intent.getStringExtra("msg");
         long intervalMillis = intent.getLongExtra("intervalMillis", 0);
         if (intervalMillis != 0) {
