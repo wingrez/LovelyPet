@@ -50,13 +50,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 MOOD + " integer not null, " +
                 STATE + " integer not null )";
 
-//        String sql = "create table " +
-//                TABLE_NAME +
-//                "(_id integer primary key autoincrement, " +
-//                PETNAME + " varchar, " +
-//                AGE + " varchar"
-//                + ")";
-
         db.execSQL(sql);
     }
 
